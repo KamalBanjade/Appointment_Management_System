@@ -22,9 +22,7 @@ const EmployeePanel = () => {
     setSelectedEmployee(null);
   };
 
-  // If the panel is not open, return null
   if (!isPanelOpen) return null;
-
   return (
     <div
       className="fixed top-16 right-0 w-93 h-[calc(100vh-4rem)] bg-gray-100 shadow-lg p-4 overflow-y-auto z-50 transition-transform transform duration-300 ease-in-out"
