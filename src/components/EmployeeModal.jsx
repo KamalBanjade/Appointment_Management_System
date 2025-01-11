@@ -17,8 +17,8 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
     mobileNumber: "",
     email: "",
     department: "",
-    officeTime: "10:00 A.M", // Default value
-    image: null, // New field for image
+    officeTime: "10:00 A.M",
+    image: null, // Stores the base64 string
   });
 
   const [errors, setErrors] = useState({});
@@ -35,7 +35,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
         email: "",
         department: "",
         officeTime: "10:00 A.M",
-        image: null, // Reset image
+        image: null,
       });
     }
   }, [employeeToEdit]);
@@ -57,25 +57,21 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    setEmployee({ ...employee, image: file });
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setEmployee({ ...employee, image: reader.result }); // Save as base64
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = () => {
     if (validateFields()) {
-      console.log("Employee object being saved:", employee); 
       onSave(employee);
       onClose();
     }
-  };
-  
-  useEffect(() => {
-    return () => {
-      if (employee.image instanceof File) {
-        URL.revokeObjectURL(employee.image);
-      }
-    };
-  }, [employee.image]);
-
+  }
 
   return (
     <Modal open={isOpen} onClose={onClose}>
