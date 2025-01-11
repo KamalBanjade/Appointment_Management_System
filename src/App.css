@@ -1,0 +1,19 @@
+.container-expanded {
+  margin-left: 250px; /* Adjust based on your menu width */
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.container-collapsed {
+  margin-left: 50px; /* Shrinked layout */
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.card-expanded {
+  width: 300px; /* Full width */
+  transition: width 0.3s ease-in-out;
+}
+
+.card-collapsed {
+  width: 150px; /* Shrinked width */
+  transition: width 0.3s ease-in-out;
+}

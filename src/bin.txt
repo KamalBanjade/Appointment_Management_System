@@ -1,0 +1,115 @@
+import React, { useState } from "react";
+import VisitorModal from "../components/VisitorModal";
+import AppointmentModal from "../components/AppointmentModal";
+const EmployeePanel = ({ employees = [] }) => {
+    const [isVisitorModalOpen, setVisitorModalOpen] = useState(false);
+    const [isAppointmentModalOpen, setAppointmentModalOpen] = useState(false);
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
+  
+    const openVisitorModal = (employee) => {
+      setSelectedEmployee(employee);
+      setVisitorModalOpen(true);
+    };
+  
+    const openAppointmentModal = (employee) => {
+      setSelectedEmployee(employee);
+      setAppointmentModalOpen(true);
+    };
+  
+    const closeVisitorModal = () => {
+      setVisitorModalOpen(false);
+      setSelectedEmployee(null);
+    };
+  
+    const closeAppointmentModal = () => {
+      setAppointmentModalOpen(false);
+      setSelectedEmployee(null);
+    };
+  
+    return (
+      <div className="employee-panel">
+        <h2 className="text-xl font-bold mb-4 text-gray-800">Employee List</h2>
+        {employees.length === 0 ? ( // Safely check employees.length
+          <p className="text-gray-500">No employees available.</p>
+        ) : (
+          employees.map((employee) => (
+            <div
+              key={employee.id}
+              className="bg-white shadow-md p-4 rounded-lg mb-4 border border-gray-200"
+            >
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0">
+                  <div className="flex flex-col items-center space-y-2">
+                    {employee.image ? (
+                      <img
+                        src={
+                          employee.image instanceof File
+                            ? URL.createObjectURL(employee.image)
+                            : employee.image
+                        }
+                        alt={employee.name || "Employee"}
+                        className="h-16 w-16 object-cover rounded-full border border-gray-300"
+                      />
+                    ) : (
+                      <div className="bg-gray-300 h-16 w-16 rounded-full flex items-center justify-center text-gray-500">
+                        N/A
+                      </div>
+                    )}
+                    <div className="btn-group flex space-x-2" role="group" aria-label="Action buttons">
+                      <button
+                        className="btn btn-primary btn-sm px-3 py-1 rounded text-white bg-blue-500 hover:bg-blue-600 transition"
+                        title="Add Visitor"
+                        onClick={() => openVisitorModal(employee)}
+                      >
+                        <img
+                          src="/visitor.png"
+                          alt="Add Visitor"
+                          className="h-5 w-5 inline-block"
+                        />
+                      </button>
+                      <button
+                        className="btn btn-secondary btn-sm px-3 py-1 rounded text-white bg-gray-500 hover:bg-gray-600 transition"
+                        title="Add Appointment"
+                        onClick={() => openAppointmentModal(employee)}
+                      >
+                        <img
+                          src="/appointment.png"
+                          alt="Add Appointment"
+                          className="h-5 w-5 inline-block"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-800">Name: {employee.name}</p>
+                  <p className="text-gray-600">Phone No: {employee.mobileNumber}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+  
+        {/* Visitor Modal */}
+        {isVisitorModalOpen && (
+          <VisitorModal
+            isOpen={isVisitorModalOpen}
+            onClose={closeVisitorModal}
+            employee={selectedEmployee}
+          />
+        )}
+  
+        {/* Appointment Modal */}
+        {isAppointmentModalOpen && (
+          <AppointmentModal
+            isOpen={isAppointmentModalOpen}
+            onClose={closeAppointmentModal}
+            employee={selectedEmployee}
+          />
+        )}
+      </div>
+    );
+  };
+  
+  export default EmployeePanel;
+  
