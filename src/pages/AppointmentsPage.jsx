@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAppointment, editAppointment, deleteAppointment } from "../Redux/AppointmentSlice";
 import AppointmentModal from "../components/AppointmentModal";
@@ -31,6 +31,7 @@ const AppointmentsPage = () => {
     setModalOpen(false);
     setAppointmentToEdit(null);
   };
+  
 
   const handleDeleteAppointment = (id) => {
     dispatch(deleteAppointment(id));
@@ -39,21 +40,22 @@ const AppointmentsPage = () => {
 
   return (
     <div className="container mx-20 mt-10">
-       <div
+      <div
         className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${
           isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
         }`}
       >
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Appointment's List</h1>
-        <button
-          onClick={() => openModal()}
-          className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
-        >
-          Add Appointment
-        </button>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-2xl font-bold">Appointment's List</h1>
+          <button
+            onClick={() => openModal()}
+            className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
+          >
+            Add Appointment
+          </button>
+        </div>
       </div>
-      </div>
+      
       <div
         className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${
           isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
@@ -73,7 +75,7 @@ const AppointmentsPage = () => {
           </thead>
           <tbody>
             {appointments.map((appointment, index) => (
-              <tr key={appointment.id}  className="hover:bg-gradient-to-r from-gray-100 to-gray-200 transition-all duration-300 transform">
+              <tr key={appointment.id} className="hover:bg-gradient-to-r from-gray-100 to-gray-200 transition-all duration-300 transform">
                 <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium">{index + 1}</td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
                   <span className="inline-block px-3 py-1 text-sm">
@@ -134,7 +136,6 @@ const AppointmentsPage = () => {
                   >
                     <DeleteIcon fontSize="small" />
                   </IconButton>
-
                 </td>
               </tr>
             ))}
@@ -143,14 +144,15 @@ const AppointmentsPage = () => {
       </div>
 
       {isModalOpen && (
-        <AppointmentModal
-          isOpen={isModalOpen}
-          onClose={() => setModalOpen(false)}
-          onSave={handleSaveAppointment}
-          appointmentToEdit={appointmentToEdit}
-          employees={employees}
-        />
-      )}
+  <AppointmentModal
+    isOpen={isModalOpen}
+    onClose={() => setModalOpen(false)}
+    onSave={handleSaveAppointment}
+    appointmentToEdit={appointmentToEdit} // Pass the current appointment
+    employees={employees} // Pass employees for the "Appointment with" dropdown
+  />
+)}
+
 
       <ToastContainer />
     </div>
