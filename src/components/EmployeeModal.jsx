@@ -6,6 +6,7 @@ import {
   Box,
   MenuItem,
   IconButton,
+  Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
@@ -18,7 +19,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
     email: "",
     department: "",
     officeTime: "10:00 A.M",
-    image: null, // Stores the base64 string
+    image: null,
   });
 
   const [errors, setErrors] = useState({});
@@ -60,7 +61,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setEmployee({ ...employee, image: reader.result }); // Save as base64
+        setEmployee({ ...employee, image: reader.result });
       };
       reader.readAsDataURL(file);
     }
@@ -71,7 +72,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
       onSave(employee);
       onClose();
     }
-  }
+  };
 
   return (
     <Modal open={isOpen} onClose={onClose}>
@@ -84,7 +85,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
           borderRadius: "16px",
           boxShadow: "0 8px 24px rgba(0, 0, 0, 0.2)",
           padding: "24px",
-          maxWidth: "600px",
+          maxWidth: "650px",
           margin: "auto",
           marginTop: "10vh",
           outline: "none",
@@ -111,14 +112,22 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
         >
           <FaTimes />
         </IconButton>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+        <Typography
+          variant="h5"
+          component="h2"
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            marginBottom: "20px",
+          }}
+        >
           {employeeToEdit ? "Edit Employee" : "Add Employee"}
-        </h2>
+        </Typography>
         <Box component="form" className="space-y-4">
           {/* Fields in a grid layout */}
           <Box
             display="grid"
-            gridTemplateColumns="1fr 1fr"
+            gridTemplateColumns="repeat(auto-fit, minmax(280px, 1fr))"
             gap="16px"
             marginBottom="16px"
           >
@@ -169,11 +178,11 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
           <TextField
             label="Department"
             name="department"
-            value={employee.department || ""} // Set the default value to "" if no value is provided
+            value={employee.department || ""}
             onChange={handleChange}
             fullWidth
             required
-            select // This tells the TextField to act as a dropdown
+            select
             variant="outlined"
             error={!!errors.department}
             helperText={errors.department}
@@ -187,7 +196,6 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
               </MenuItem>
             ))}
           </TextField>
-
           <TextField
             label="Office Time"
             name="officeTime"
@@ -195,31 +203,38 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
             onChange={handleChange}
             fullWidth
             variant="outlined"
-            disabled
           />
-
-          {/* Image Upload Field */}
-          <div className="image-upload">
-            <label htmlFor="upload-image" style={{ display: "block", marginBottom: "8px" }}>
+          <div className="image-upload" style={{ marginTop: "16px" }}>
+            <Typography variant="subtitle1" style={{ marginBottom: "8px" }}>
               Upload Employee Image:
-            </label>
+            </Typography>
             <input
               type="file"
               id="upload-image"
               accept="image/*"
               onChange={handleImageUpload}
-              style={{ display: "block", marginBottom: "16px" }}
+              style={{
+                display: "block",
+                border: "1px solid #ccc",
+                padding: "8px",
+                borderRadius: "8px",
+              }}
             />
-            {employee.image instanceof File && (
-              <div style={{ marginTop: "10px" }}>
+            {employee.image && (
+              <div style={{ marginTop: "16px", textAlign: "center" }}>
                 <img
-                  src={URL.createObjectURL(employee.image)}
+                  src={employee.image}
                   alt="Employee"
-                  style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "8px" }}
+                  style={{
+                    width: "120px",
+                    height: "120px",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                    border: "2px solid #ccc",
+                  }}
                 />
               </div>
             )}
-
           </div>
         </Box>
         <div className="mt-6 flex justify-between">
@@ -238,6 +253,10 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
             variant="outlined"
             color="warning"
             size="large"
+            style={{
+              padding: "8px 24px",
+              borderRadius: "8px",
+            }}
           >
             Clear
           </Button>
@@ -247,6 +266,10 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
               variant="contained"
               color="primary"
               size="large"
+              style={{
+                padding: "8px 24px",
+                borderRadius: "8px",
+              }}
             >
               Save
             </Button>

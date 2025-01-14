@@ -22,21 +22,19 @@ const AppointmentModal = ({
   const [appointment, setAppointment] = useState(defaultAppointmentState);
   const [errors, setErrors] = useState({});
 
-  // Effect to pre-fill the form when an appointment is being edited
   useEffect(() => {
     if (appointmentToEdit) {
-      setAppointment(appointmentToEdit); // Populate form with existing appointment data
+      setAppointment(appointmentToEdit);
     } else {
-      setAppointment(defaultAppointmentState); // Reset form for new appointments
+      setAppointment(defaultAppointmentState);
     }
   }, [appointmentToEdit]);
 
-  // Effect to set the default employee when selectedEmployee changes
   useEffect(() => {
     if (selectedEmployee) {
       setAppointment((prevState) => ({
         ...prevState,
-        appointmentWith: selectedEmployee.name, // Set default value to selected employee's name
+        appointmentWith: selectedEmployee.name,
       }));
     }
   }, [selectedEmployee]);
@@ -77,10 +75,10 @@ const AppointmentModal = ({
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
         style={{
-          backgroundColor: "white",
+          backgroundColor: "#f8f9fa",
           borderRadius: "16px",
           boxShadow: "0 8px 24px rgba(0, 0, 0, 0.2)",
-          padding: "24px",
+          padding: "32px",
           maxWidth: "600px",
           margin: "auto",
           marginTop: "10vh",
@@ -88,14 +86,13 @@ const AppointmentModal = ({
           position: "relative",
         }}
       >
-        {/* Close Icon */}
         <IconButton
           onClick={onClose}
           aria-label="Close modal"
           style={{
             position: "absolute",
-            top: "12px",
-            right: "12px",
+            top: "16px",
+            right: "16px",
             backgroundColor: "rgba(0, 0, 0, 0.05)",
             transition: "transform 0.2s ease-in-out",
           }}
@@ -110,12 +107,20 @@ const AppointmentModal = ({
           <FaTimes />
         </IconButton>
 
-        {/* Modal Header */}
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+        <h2
+          style={{
+            fontSize: "1.5rem",
+            fontWeight: "bold",
+            textAlign: "center",
+            color: "#495057",
+            marginBottom: "20px",
+            borderBottom: "2px solid #dee2e6",
+            paddingBottom: "8px",
+          }}
+        >
           {appointmentToEdit ? "Edit Appointment" : "Add Appointment"}
         </h2>
 
-        {/* Form */}
         <Box component="form" className="space-y-5">
           <TextField
             label="Visitor Name"
@@ -127,6 +132,7 @@ const AppointmentModal = ({
             variant="outlined"
             error={!!errors.visitorName}
             helperText={errors.visitorName}
+            style={{ backgroundColor: "#fff", borderRadius: "8px" }}
           />
           <TextField
             label="Phone Number"
@@ -139,6 +145,7 @@ const AppointmentModal = ({
             variant="outlined"
             error={!!errors.phoneNumber}
             helperText={errors.phoneNumber}
+            style={{ backgroundColor: "#fff", borderRadius: "8px" }}
           />
           <TextField
             label="Reason"
@@ -152,6 +159,7 @@ const AppointmentModal = ({
             variant="outlined"
             error={!!errors.reason}
             helperText={errors.reason}
+            style={{ backgroundColor: "#fff", borderRadius: "8px" }}
           />
           <TextField
             label="Date"
@@ -167,6 +175,7 @@ const AppointmentModal = ({
             variant="outlined"
             error={!!errors.date}
             helperText={errors.date}
+            style={{ backgroundColor: "#fff", borderRadius: "8px" }}
           />
           <TextField
             select
@@ -179,6 +188,7 @@ const AppointmentModal = ({
             variant="outlined"
             error={!!errors.appointmentWith}
             helperText={errors.appointmentWith || "Select an employee for the appointment."}
+            style={{ backgroundColor: "#fff", borderRadius: "8px" }}
           >
             {selectedEmployee ? (
               <MenuItem value={appointment.appointmentWith}>
@@ -194,7 +204,6 @@ const AppointmentModal = ({
           </TextField>
         </Box>
 
-        {/* Action Buttons */}
         <div className="mt-6 flex justify-between">
           <Button
             onClick={handleClear}
@@ -204,24 +213,24 @@ const AppointmentModal = ({
             style={{
               borderRadius: "8px",
               padding: "8px 16px",
+              textTransform: "none",
             }}
           >
             Clear
           </Button>
-          <div className="flex space-x-2">
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              color="primary"
-              size="large"
-              style={{
-                borderRadius: "8px",
-                padding: "8px 16px",
-              }}
-            >
-              Save
-            </Button>
-          </div>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            color="primary"
+            size="large"
+            style={{
+              borderRadius: "8px",
+              padding: "8px 16px",
+              textTransform: "none",
+            }}
+          >
+            Save
+          </Button>
         </div>
       </motion.div>
     </Modal>

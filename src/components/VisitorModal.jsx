@@ -1,54 +1,60 @@
 import React, { useState, useEffect } from "react";
-import { Modal, TextField, Button, MenuItem, Box, IconButton } from "@mui/material";
+import { Modal, TextField, Button, MenuItem, Box, IconButton, Grid } from "@mui/material";
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
-const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
+
+const VisitorModal = ({
+  isOpen,
+  onClose,
+  onSave,
+  visitorToEdit,
+  employee,
+}) => {
   const defaultVisitorState = {
     name: "",
     email: "",
     phoneNumber: "",
     visitReason: "",
     visitDate: "",
-    appointmentWith: employee?.department || "",  // Set the default to employee's department
+    appointmentWith: employee?.department || "",
   };
+
 
   const [visitor, setVisitor] = useState(defaultVisitorState);
   const [errors, setErrors] = useState({});
-  const department = ["IT", "Finance", "HR", "Admin", "Sales"];
+  const departments = ["IT", "Finance", "HR", "Admin", "Sales"];
 
   useEffect(() => {
     if (visitorToEdit) {
       setVisitor(visitorToEdit);
     } else {
-      setVisitor(defaultVisitorState);
+      setVisitor({
+        ...defaultVisitorState,
+        appointmentWith: employee?.department || "",
+      });
     }
-  }, [visitorToEdit, employee]); // Add employee as a dependency so that it updates when employee changes
-
-
-  useEffect(() => {
-    if (visitorToEdit) {
-      setVisitor(visitorToEdit);
-    } else {
-      setVisitor(defaultVisitorState);
-    }
-  }, [visitorToEdit]);
+  }, [visitorToEdit, employee]);
 
   const validateFields = () => {
     const newErrors = {};
     if (!visitor.name) newErrors.name = "Name is required.";
-    if (!visitor.email) newErrors.email = "Email is required.";
-    if (!visitor.phoneNumber) newErrors.phoneNumber = "Phone number is required.";
+    if (!visitor.email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(visitor.email)) {
+      newErrors.email = "Valid email is required.";
+    }
+    if (!visitor.phoneNumber || !/^\d{10}$/.test(visitor.phoneNumber)) {
+      newErrors.phoneNumber = "Valid phone number is required.";
+    }
     if (!visitor.visitReason) newErrors.visitReason = "Reason is required.";
     if (!visitor.visitDate) newErrors.visitDate = "Date is required.";
-    if (!visitor.appointmentWith) newErrors.appointmentWith = "Appointment is required.";
+    if (!visitor.appointmentWith) newErrors.appointmentWith = "Department is required.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setVisitor({ ...visitor, [name]: value });
-    setErrors({ ...errors, [name]: "" });
+    setVisitor((prev) => ({ ...prev, [name]: value }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
   const handleClear = () => {
@@ -58,7 +64,10 @@ const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
 
   const handleSubmit = () => {
     if (validateFields()) {
-      onSave(visitor);
+      const updatedVisitor = visitorToEdit
+        ? { ...visitor }
+        : { ...visitor, id: new Date().getTime() }; // Assign a unique ID for new visitors
+      onSave(updatedVisitor);
       onClose();
     }
   };
@@ -102,11 +111,14 @@ const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
         >
           <FaTimes />
         </IconButton>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+
+        {/* Modal Header */}
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
           {visitorToEdit ? "Edit Visitor" : "Add Visitor"}
         </h2>
 
-        <Box component="form" className="space-y-4">
+        {/* Form */}
+        <Box component="form" className="space-y-5">
           <TextField
             label="Name"
             name="name"
@@ -118,28 +130,34 @@ const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
             error={!!errors.name}
             helperText={errors.name}
           />
-          <TextField
-            label="Email"
-            name="email"
-            value={visitor.email}
-            onChange={handleChange}
-            fullWidth
-            required
-            variant="outlined"
-            error={!!errors.email}
-            helperText={errors.email}
-          />
-          <TextField
-            label="Phone Number"
-            name="phoneNumber"
-            value={visitor.phoneNumber}
-            onChange={handleChange}
-            fullWidth
-            required
-            variant="outlined"
-            error={!!errors.phoneNumber}
-            helperText={errors.phoneNumber}
-          />
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Email"
+                name="email"
+                value={visitor.email}
+                onChange={handleChange}
+                fullWidth
+                required
+                variant="outlined"
+                error={!!errors.email}
+                helperText={errors.email}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Phone Number"
+                name="phoneNumber"
+                value={visitor.phoneNumber}
+                onChange={handleChange}
+                fullWidth
+                required
+                variant="outlined"
+                error={!!errors.phoneNumber}
+                helperText={errors.phoneNumber}
+              />
+            </Grid>
+          </Grid>
           <TextField
             label="Reason for Visit"
             name="visitReason"
@@ -147,6 +165,8 @@ const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
             onChange={handleChange}
             fullWidth
             required
+            multiline
+            rows={3}
             variant="outlined"
             error={!!errors.visitReason}
             helperText={errors.visitReason}
@@ -166,14 +186,15 @@ const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
             error={!!errors.visitDate}
             helperText={errors.visitDate}
           />
+          
           <TextField
+            select
             label="Appointment With"
             name="appointmentWith"
-            value={visitor.appointmentWith || employee?.department || ""} // Set default to employee's department
+            value={visitor.appointmentWith}
             onChange={handleChange}
             fullWidth
             required
-            select
             variant="outlined"
             error={!!errors.appointmentWith}
             helperText={errors.appointmentWith || "Select a department for the appointment."}
@@ -181,32 +202,42 @@ const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
             <MenuItem value="">
               <em>Select a Department</em>
             </MenuItem>
-            {department.map((dept) => (
+            {departments.map((dept) => (
               <MenuItem key={dept} value={dept}>
                 {dept}
               </MenuItem>
             ))}
           </TextField>
+
+          
         </Box>
+
+        {/* Action Buttons */}
         <div className="mt-6 flex justify-between">
           <Button
             onClick={handleClear}
             variant="outlined"
             color="warning"
             size="large"
+            style={{
+              borderRadius: "8px",
+              padding: "8px 16px",
+            }}
           >
             Clear
           </Button>
-          <div className="flex space-x-2">
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              color="primary"
-              size="large"
-            >
-              Save
-            </Button>
-          </div>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            color="primary"
+            size="large"
+            style={{
+              borderRadius: "8px",
+              padding: "8px 16px",
+            }}
+          >
+            Save
+          </Button>
         </div>
       </motion.div>
     </Modal>

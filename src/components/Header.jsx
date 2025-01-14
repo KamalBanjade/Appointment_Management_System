@@ -15,7 +15,7 @@ const Header = () => {
 
 
   return (
-    <nav className="bg-white border-b-4 border-green-600 shadow-sm relative z-50">
+    <nav className="w-full bg-white border-b-4 border-green-600 shadow-sm relative z-50">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         {/* Logo Section */}
         <NavLink to="/" className="text-xl font-bold flex items-center">
@@ -34,7 +34,7 @@ const Header = () => {
                 to="/visitors"
                 className={({ isActive }) =>
                   isActive
-                    ? "text-green-600 font-medium block py-2 px-4"
+                    ? "text-green-600 font-medium block py-2 px-4 border-b-2 border-green-600"
                     : "hover:text-green-600 font-medium block py-2 px-4"
                 }
               >
@@ -46,7 +46,7 @@ const Header = () => {
                 to="/appointments"
                 className={({ isActive }) =>
                   isActive
-                    ? "text-green-600 font-medium block py-2 px-4"
+                    ? "text-green-600 font-medium block py-2 px-4 border-b-2 border-green-600"
                     : "hover:text-green-600 font-medium block py-2 px-4"
                 }
               >
@@ -58,7 +58,7 @@ const Header = () => {
                 to="/employees"
                 className={({ isActive }) =>
                   isActive
-                    ? "text-green-600 font-medium block py-2 px-4"
+                    ? "text-green-600 font-medium block py-2 px-4 border-b-2 border-green-600"
                     : "hover:text-green-600 font-medium block py-2 px-4"
                 }
               >
