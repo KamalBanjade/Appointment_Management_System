@@ -51,7 +51,7 @@ const EmployeePanel = () => {
       toast.error("No employee selected for the appointment.");
       return;
     }
-  
+
     const appointmentWithEmployee = {
       ...appointment,
       id: Date.now(), // Ensure unique ID
@@ -59,23 +59,23 @@ const EmployeePanel = () => {
       employeeName: selectedEmployee.name, // Include additional details if required
     };
     dispatch(addAppointment(appointmentWithEmployee)); // Dispatch Redux action
-  
+
     toast.success(`Appointment added for ${selectedEmployee.name}!`, {
       position: "top-right",
       autoClose: 3000,
     });
-  
+
     closeModals();
   };
-  
-  
+
+
 
   const handleSaveVisitor = (visitor) => {
     if (!selectedEmployee || !selectedEmployee.id) {
       toast.error("No employee selected for the visitor.");
       return;
     }
-  
+
     const visitorWithEmployee = {
       ...visitor,
       id: Date.now(), // Ensure unique ID for the visitor
@@ -83,15 +83,15 @@ const EmployeePanel = () => {
       employeeName: selectedEmployee.name, // Include additional details if required
     };
     dispatch(addVisitor(visitorWithEmployee)); // Dispatch Redux action
-  
+
     toast.success(`Visitor added for ${selectedEmployee.name}!`, {
       position: "top-right",
       autoClose: 3000,
     });
-  
+
     closeModals();
   };
-  
+
 
   if (!isPanelOpen) return null;
 
@@ -100,39 +100,39 @@ const EmployeePanel = () => {
       <h2 className="text-lg font-bold mb-4 text-gray-800">Employee List:</h2>
 
       <div className="mb-6">
-  <TextField
-    fullWidth
-    variant="outlined"
-    placeholder="Search Employee..."
-    value={searchQuery}
-    onChange={handleSearchChange}
-    InputProps={{
-      startAdornment: (
-        <InputAdornment position="start">
-          <SearchIcon style={{ color: '#6B7280' }} />
-        </InputAdornment>
-      ),
-      style: {
-        borderRadius: '18px',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-        transition: 'box-shadow 0.3s ease',
-        height: '40px', // Adjust height here
-      },
-    }}
-    sx={{
-      '& .MuiOutlinedInput-root': {
-        '&:hover fieldset': {
-          borderColor: '#3B82F6',
-        },
-        '&.Mui-focused fieldset': {
-          borderColor: '#3B82F6',
-          boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.2)',
-        },
-        fontSize: '14px', // Adjust font size for better proportion
-      },
-    }}
-  />
-</div>
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder="Search Employee..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon style={{ color: '#6B7280' }} />
+              </InputAdornment>
+            ),
+            style: {
+              borderRadius: '18px',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+              transition: 'box-shadow 0.3s ease',
+              height: '40px', // Adjust height here
+            },
+          }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '&:hover fieldset': {
+                borderColor: '#3B82F6',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#3B82F6',
+                boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.2)',
+              },
+              fontSize: '14px', // Adjust font size for better proportion
+            },
+          }}
+        />
+      </div>
 
 
       {/* Employee List or No Employees Message */}
@@ -222,14 +222,14 @@ const EmployeePanel = () => {
 
       {/* Appointment Modal */}
       {isAppointmentModalOpen && (
-          <AppointmentModal
-            isOpen={isAppointmentModalOpen}
-            onClose={closeModals}
-            onSave={handleSaveAppointment}
-            employees={employees}
-            selectedEmployee={selectedEmployee}
-          />
-        )}
+        <AppointmentModal
+          isOpen={isAppointmentModalOpen}
+          onClose={closeModals}
+          onSave={handleSaveAppointment}
+          employees={employees}
+          selectedEmployee={selectedEmployee}
+        />
+      )}
     </div>
   );
 };

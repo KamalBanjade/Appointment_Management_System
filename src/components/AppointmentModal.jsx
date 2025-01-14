@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, TextField, Button, MenuItem, Box, IconButton } from "@mui/material";
 import { FaTimes } from "react-icons/fa";
 import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
 
 const AppointmentModal = ({
   isOpen,
@@ -17,6 +18,7 @@ const AppointmentModal = ({
     reason: "",
     date: "",
     appointmentWith: "",
+    department: "",
   };
 
   const [appointment, setAppointment] = useState(defaultAppointmentState);
@@ -35,9 +37,11 @@ const AppointmentModal = ({
       setAppointment((prevState) => ({
         ...prevState,
         appointmentWith: selectedEmployee.name,
+        department: selectedEmployee.department || "No department",
       }));
     }
   }, [selectedEmployee]);
+  
 
   const validateFields = () => {
     const newErrors = {};
@@ -53,7 +57,7 @@ const AppointmentModal = ({
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAppointment({ ...appointment, [name]: value });
-    setErrors({ ...errors, [name]: "" });
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
   const handleClear = () => {
@@ -62,11 +66,58 @@ const AppointmentModal = ({
   };
 
   const handleSubmit = () => {
-    if (validateFields()) {
-      onSave(appointment);
-      onClose();
+    if (!validateFields()) return;
+  
+    const selectedEmployee = employees.find(
+      (employee) => employee.name === appointment.appointmentWith
+    );
+  
+    if (!selectedEmployee || !selectedEmployee.email) {
+      alert("Email not found for the selected employee.");
+      return;
     }
+  
+    const employeeEmail = selectedEmployee.email;
+  
+    const appointmentDate = new Date(appointment.date);
+    const formattedDate = appointmentDate.toLocaleDateString([], {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    const formattedTime = appointmentDate.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  
+    const emailData = {
+      visitor_Name: appointment.visitorName,
+      recipient_name: appointment.appointmentWith,
+      appointment_date: formattedDate,
+      appointment_time: formattedTime,
+      department: selectedEmployee.department || "No department", // Ensure department is set
+      office_contact: appointment.phoneNumber,
+      to_email: employeeEmail,
+    };
+  
+    console.log("Email Data:", emailData);
+  
+    emailjs
+      .send("service_ddikcul", "template_odr0a8c", emailData, "Li6wdbLmAvMDclI_9")
+      .then(
+        (response) => {
+          console.log("Email sent successfully!", response.status, response.text);
+          onSave(appointment);
+          onClose();
+        },
+        (error) => {
+          console.error("Failed to send email:", error);
+          alert("Failed to send the email. Please try again.");
+        }
+      );
   };
+  
 
   return (
     <Modal open={isOpen} onClose={onClose}>
@@ -190,17 +241,11 @@ const AppointmentModal = ({
             helperText={errors.appointmentWith || "Select an employee for the appointment."}
             style={{ backgroundColor: "#fff", borderRadius: "8px" }}
           >
-            {selectedEmployee ? (
-              <MenuItem value={appointment.appointmentWith}>
-                {appointment.appointmentWith}
+            {employees.map((employee) => (
+              <MenuItem key={employee.email} value={employee.name}>
+                {employee.name} - {employee.department || "No department"}
               </MenuItem>
-            ) : (
-              employees.map((employee) => (
-                <MenuItem key={employee.email} value={employee.name}>
-                  {employee.name}
-                </MenuItem>
-              ))
-            )}
+            ))}
           </TextField>
         </Box>
 
