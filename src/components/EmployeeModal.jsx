@@ -169,7 +169,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
           <TextField
             label="Department"
             name="department"
-            value={employee.department}
+            value={employee.department || ""} // Set the default value to "" if no value is provided
             onChange={handleChange}
             fullWidth
             required
@@ -187,6 +187,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
               </MenuItem>
             ))}
           </TextField>
+
           <TextField
             label="Office Time"
             name="officeTime"
@@ -194,6 +195,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
             onChange={handleChange}
             fullWidth
             variant="outlined"
+            disabled
           />
 
           {/* Image Upload Field */}
