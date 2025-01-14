@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 
+
 const EmployeePage = () => {
   const employees = useSelector((state) => state.employees.list);
   const isMenuOpen = useSelector((state) => state.employees.isEmployeePanelOpen); // Hamburger menu state from Redux
@@ -48,9 +49,8 @@ const EmployeePage = () => {
   return (
     <div className="container mx-20 mt-14 px-4">
       <div
-        className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${
-          isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
-        }`}
+        className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
+          }`}
       >
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold">Employee's List</h1>
@@ -64,11 +64,10 @@ const EmployeePage = () => {
       </div>
       {/* Employee Table */}
       <div
-        className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${
-          isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
-        }`}
+        className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
+          }`}
       >
-        <table className="min-w-full border-collapse border border-gray-200 shadow-lg rounded-lg text-center">
+        <table className="w-full text-sm text-gray-700 shadow-lg rounded-lg overflow-hidden text-center">
           <thead>
             <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">SN</th>
@@ -85,11 +84,11 @@ const EmployeePage = () => {
                 key={employee.id}
                 className="hover:bg-gradient-to-r from-gray-100 to-gray-200 transition-all duration-300 transform"
               >
-                <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium">{index + 1}</td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
+                <td className="border border-gray-200 px-4 py-2 text-gray-600 font-medium">{index + 1}</td>
+                <td className="border border-gray-200 px-4 py-2 text-gray-600 font-medium">
                   <span className="inline-block px-3 py-1 text-sm">{employee.name}</span>
                 </td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-700">
+                <td className="border border-gray-200 px-4 py-2 text-gray-600">
                   <a
                     href={`tel:${employee.mobileNumber}`}
                     className="text-blue-500 hover:underline hover:text-blue-700"
@@ -97,10 +96,10 @@ const EmployeePage = () => {
                     {employee.mobileNumber}
                   </a>
                 </td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
+                <td className="border border-gray-200 px-4 py-2 text-gray-600 font-medium">
                   <span className="inline-block px-2 py-1 text-sm">{employee.officeTime || "-"}</span>
                 </td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-700">{employee.department}</td>
+                <td className="border border-gray-200 px-4 py-2 text-gray-600 font-medium">{employee.department}</td>
                 <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">
                   <IconButton
                     onClick={() => handleEditEmployee(employee)}

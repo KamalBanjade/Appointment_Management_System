@@ -4,7 +4,10 @@ import VisitorModal from "../components/VisitorModal";
 import AppointmentModal from "../components/AppointmentModal";
 import SearchIcon from "@mui/icons-material/Search";
 import { InputAdornment, TextField } from "@mui/material";
-
+import { addAppointment } from "../Redux/AppointmentSlice";
+import { addVisitor } from "../Redux/VisitorSlice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EmployeePanel = () => {
   const [isVisitorModalOpen, setVisitorModalOpen] = useState(false);
@@ -43,17 +46,52 @@ const EmployeePanel = () => {
     employee.mobileNumber.includes(searchQuery)
   );
 
-  // Handle saving an appointment
   const handleSaveAppointment = (appointment) => {
-    setAppointments((prev) => [...prev, appointment]); // Add new appointment
-    closeModals(); // Close the modal after saving
+    if (!selectedEmployee || !selectedEmployee.id) {
+      toast.error("No employee selected for the appointment.");
+      return;
+    }
+  
+    const appointmentWithEmployee = {
+      ...appointment,
+      id: Date.now(), // Ensure unique ID
+      employeeId: selectedEmployee.id,
+      employeeName: selectedEmployee.name, // Include additional details if required
+    };
+    dispatch(addAppointment(appointmentWithEmployee)); // Dispatch Redux action
+  
+    toast.success(`Appointment added for ${selectedEmployee.name}!`, {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  
+    closeModals();
   };
+  
+  
 
-  // Handle saving a visitor
   const handleSaveVisitor = (visitor) => {
-    // Implement visitor saving logic here
-    closeModals(); // Close the modal after saving
+    if (!selectedEmployee || !selectedEmployee.id) {
+      toast.error("No employee selected for the visitor.");
+      return;
+    }
+  
+    const visitorWithEmployee = {
+      ...visitor,
+      id: Date.now(), // Ensure unique ID for the visitor
+      employeeId: selectedEmployee.id,
+      employeeName: selectedEmployee.name, // Include additional details if required
+    };
+    dispatch(addVisitor(visitorWithEmployee)); // Dispatch Redux action
+  
+    toast.success(`Visitor added for ${selectedEmployee.name}!`, {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  
+    closeModals();
   };
+  
 
   if (!isPanelOpen) return null;
 
@@ -61,39 +99,41 @@ const EmployeePanel = () => {
     <div className="fixed top-16 right-0 w-[32%] h-[calc(100vh-4rem)] bg-gray-100 shadow-lg p-4 overflow-y-auto z-50 transition-transform transform duration-300 ease-in-out">
       <h2 className="text-lg font-bold mb-4 text-gray-800">Employee List:</h2>
 
-      {/* Search Box */}
       <div className="mb-6">
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Search Employee..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon style={{ color: '#6B7280' }} />
-              </InputAdornment>
-            ),
-            style: {
-              borderRadius: '18px',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-              transition: 'box-shadow 0.3s ease',
-            },
-          }}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '&:hover fieldset': {
-                borderColor: '#3B82F6',
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: '#3B82F6',
-                boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.2)',
-              },
-            },
-          }}
-        />
-      </div>
+  <TextField
+    fullWidth
+    variant="outlined"
+    placeholder="Search Employee..."
+    value={searchQuery}
+    onChange={handleSearchChange}
+    InputProps={{
+      startAdornment: (
+        <InputAdornment position="start">
+          <SearchIcon style={{ color: '#6B7280' }} />
+        </InputAdornment>
+      ),
+      style: {
+        borderRadius: '18px',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        transition: 'box-shadow 0.3s ease',
+        height: '40px', // Adjust height here
+      },
+    }}
+    sx={{
+      '& .MuiOutlinedInput-root': {
+        '&:hover fieldset': {
+          borderColor: '#3B82F6',
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: '#3B82F6',
+          boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.2)',
+        },
+        fontSize: '14px', // Adjust font size for better proportion
+      },
+    }}
+  />
+</div>
+
 
       {/* Employee List or No Employees Message */}
       {filteredEmployees.length === 0 ? (
@@ -132,7 +172,7 @@ const EmployeePanel = () => {
                       />
                     </button>
                     <button
-                      className="btn px-3 py-1 rounded text-white bg-gray-500 hover:bg-gray-600 transition"
+                      className="btn px-3 py-1 rounded text-white bg-gray-500 hover:bg-green-600 transition"
                       title="Add Appointment"
                       onClick={() => openModal(employee, "appointment")}
                     >
@@ -174,22 +214,22 @@ const EmployeePanel = () => {
         <VisitorModal
           isOpen={isVisitorModalOpen}
           onClose={closeModals}
-          employee={selectedEmployee}
+          employee={selectedEmployee} // Pass selected employee data
           onSave={handleSaveVisitor}
         />
       )}
 
+
       {/* Appointment Modal */}
       {isAppointmentModalOpen && (
-        <AppointmentModal
-          isOpen={isAppointmentModalOpen}
-          onClose={closeModals}
-          appointmentToEdit={null}  // Pass null for adding new appointment
-          onSave={handleSaveAppointment}  // Save the appointment to the list
-          employees={employees}
-          selectedEmployee={selectedEmployee}
-        />
-      )}
+          <AppointmentModal
+            isOpen={isAppointmentModalOpen}
+            onClose={closeModals}
+            onSave={handleSaveAppointment}
+            employees={employees}
+            selectedEmployee={selectedEmployee}
+          />
+        )}
     </div>
   );
 };
