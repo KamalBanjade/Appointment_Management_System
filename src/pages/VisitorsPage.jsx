@@ -37,7 +37,7 @@ const VisitorPage = () => {
     toast.error("Visitor deleted successfully!");
   };
   const formattedDate = (date) => {
-    return format(new Date(date), 'MMM dd, yyyy HH:mm'); // Use date-fns for formatting
+    return format(new Date(date), 'MMM dd, yyyy (HH:mm)'); // Use date-fns for formatting
   };
 
   return (
@@ -68,7 +68,7 @@ const VisitorPage = () => {
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Phone Number</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Reason</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Date (Time)</th>
-              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Appointment with(Department)</th>
+              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Visit with (Department)</th>
 
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Actions</th>
             </tr>

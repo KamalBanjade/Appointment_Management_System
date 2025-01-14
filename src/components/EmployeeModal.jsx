@@ -119,6 +119,8 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
             textAlign: "center",
             fontWeight: "bold",
             marginBottom: "20px",
+            borderBottom: "2px solid #dee2e6",
+            paddingBottom: "8px",
           }}
         >
           {employeeToEdit ? "Edit Employee" : "Add Employee"}

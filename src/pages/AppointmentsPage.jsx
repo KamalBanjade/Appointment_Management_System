@@ -40,7 +40,7 @@ const AppointmentsPage = () => {
 
 
   const formattedDate = (date) => {
-    return format(new Date(date), 'MMM dd, yyyy HH:mm'); // Use date-fns for formatting
+    return format(new Date(date), 'MMM dd, yyyy (HH:mm)'); // Use date-fns for formatting
   };
 
   return (

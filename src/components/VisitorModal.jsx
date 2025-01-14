@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, TextField, Button, MenuItem, Box, IconButton, Grid } from "@mui/material";
+import { Modal, TextField, Button, MenuItem, Box, IconButton, Grid, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 
@@ -112,10 +112,19 @@ const VisitorModal = ({
           <FaTimes />
         </IconButton>
 
-        {/* Modal Header */}
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+        <Typography
+          variant="h5"
+          component="h2"
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            marginBottom: "20px",
+            borderBottom: "2px solid #dee2e6",
+            paddingBottom: "8px",
+          }}
+        >
           {visitorToEdit ? "Edit Visitor" : "Add Visitor"}
-        </h2>
+        </Typography>
 
         {/* Form */}
         <Box component="form" className="space-y-5">
