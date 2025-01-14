@@ -5,6 +5,7 @@ import AppointmentsPage from "./pages/AppointmentsPage";
 import VisitorsPage from "./pages/VisitorsPage";
 import EmployeesPage from "./pages/EmployeesPage";
 import EmployeePanel from './pages/EmployeePanel';
+import HomePage from './pages/HomePage';
 
 const MyRoutes = () => {
   return (
@@ -12,7 +13,7 @@ const MyRoutes = () => {
       <Header />
       <EmployeePanel />
       <Routes>
-        
+        <Route path="/" element={<HomePage/>} />
         <Route path="/appointments" element={<AppointmentsPage />} />
         <Route path="/visitors" element={<VisitorsPage />} />
         <Route path="/employees" element={<EmployeesPage />} />
