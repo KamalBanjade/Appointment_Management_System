@@ -1,36 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // Import default styles
 import Clock from "react-clock"; // Import the analog clock component
 import "react-clock/dist/Clock.css"; // Import the default clock styles
 import { Link } from "react-router-dom";
-
-
+import { formatDate, formatTime } from "../utils/dateUtils";
 
 const HomePage = () => {
     const visitors = useSelector((state) => state.visitors.list);
     const visitorsToday = visitors.length; // Total number of visitors
     const appointments = useSelector((state) => state.appointments.list);
-    const upcomingAppointments = appointments.length;
     const employees = useSelector((state) => state.employees.list);
     const activeEmployees = employees.length;
     const latestVisitorName = useSelector((state) => state.visitors.latestVisitorName);
 
     const [stats, setStats] = useState({
         visitorsToday: visitorsToday,
-        upcomingAppointments: upcomingAppointments,
+        upcomingAppointments: appointments.length,
         activeEmployees: activeEmployees,
     });
 
     const [recentActivities, setRecentActivities] = useState([
-        "John Doe checked in at 9:00 AM",
-        "Appointment scheduled with Dr. Smith at 11:00 AM",
+        "Recently joined employee : John smith",
         <span key="latestVisitor">
-            New visitor: <Link to="/visitors" className="text-green-500 font-bold hover:underline">{latestVisitorName}</Link> added
+            New visitor: <Link to="/visitors" className="text-blue-500 font-bold hover:underline">{latestVisitorName}</Link> added
         </span>,
     ]);
-    
 
     const [date, setDate] = useState(new Date());
     const [time, setTime] = useState(new Date().toLocaleTimeString());
@@ -44,6 +40,30 @@ const HomePage = () => {
         return () => clearInterval(timer); // Cleanup on component unmount
     }, []);
 
+    useEffect(() => {
+        if (appointments.length > 0) {
+          const latestAppointment = appointments[appointments.length - 1];
+          const appointmentDate = new Date(latestAppointment.date);
+          const formattedDate = formatDate(appointmentDate);
+          const formattedTime = formatTime(appointmentDate);
+      
+          const latestActivity = (
+            <span key={`appointment-${latestAppointment.id}`}>
+              Appointment scheduled with{" "}
+              <Link
+                to="/appointments"
+                className="text-green-500 font-bold hover:underline"
+              >
+                {latestAppointment.appointmentWith}
+              </Link>{" "}
+              on {formattedDate} at {formattedTime}
+            </span>
+          );
+      
+          setRecentActivities((prevActivities) => [...prevActivities, latestActivity]);
+        }
+      }, [appointments]);
+      
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
             {/* Dashboard Overview */}
@@ -54,7 +74,7 @@ const HomePage = () => {
                 </div>
                 <div className="bg-white shadow rounded-lg p-4">
                     <h3 className="text-xl font-bold text-gray-700">Upcoming Appointments</h3>
-                    <p className="text-3xl font-semibold text-green-500 mt-2">{upcomingAppointments}</p>
+                    <p className="text-3xl font-semibold text-green-500 mt-2">{appointments.length}</p>
                 </div>
                 <div className="bg-white shadow rounded-lg p-4">
                     <h3 className="text-xl font-bold text-gray-700">Active Employees</h3>
@@ -73,7 +93,6 @@ const HomePage = () => {
                         </li>
                     ))}
                 </ul>
-
             </div>
 
             {/* Layout for Calendar and Analog Clock */}

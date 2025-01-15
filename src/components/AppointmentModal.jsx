@@ -3,6 +3,9 @@ import { Modal, TextField, Button, MenuItem, Box, IconButton } from "@mui/materi
 import { FaTimes } from "react-icons/fa";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import { useDispatch } from "react-redux";
+import { addAppointment, editAppointment } from "../Redux/AppointmentSlice";
+import { formatDate, formatTime } from "../utils/dateUtils";
 
 const AppointmentModal = ({
   isOpen,
@@ -12,6 +15,7 @@ const AppointmentModal = ({
   employees,
   selectedEmployee,
 }) => {
+  const dispatch = useDispatch();
   const defaultAppointmentState = {
     visitorName: "",
     phoneNumber: "",
@@ -41,7 +45,7 @@ const AppointmentModal = ({
       }));
     }
   }, [selectedEmployee]);
-  
+
 
   const validateFields = () => {
     const newErrors = {};
@@ -67,30 +71,22 @@ const AppointmentModal = ({
 
   const handleSubmit = () => {
     if (!validateFields()) return;
-  
+
     const selectedEmployee = employees.find(
       (employee) => employee.name === appointment.appointmentWith
     );
-  
+
     if (!selectedEmployee || !selectedEmployee.email) {
       alert("Email not found for the selected employee.");
       return;
     }
-  
+
     const employeeEmail = selectedEmployee.email;
-  
+
     const appointmentDate = new Date(appointment.date);
-    const formattedDate = appointmentDate.toLocaleDateString([], {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-    const formattedTime = appointmentDate.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  
+    const formattedDate = formatDate(new Date(appointment.date));
+    const formattedTime = formatTime(new Date(appointment.date));
+
     const emailData = {
       visitor_Name: appointment.visitorName,
       recipient_name: appointment.appointmentWith,
@@ -100,9 +96,24 @@ const AppointmentModal = ({
       office_contact: appointment.phoneNumber,
       to_email: employeeEmail,
     };
-  
+
     console.log("Email Data:", emailData);
-  
+
+    // Save appointment to Redux store
+    const appointmentData = {
+      ...appointment,
+      id: appointment.id || Date.now().toString(), // Generate an ID for new appointments
+    };
+
+    if (appointmentToEdit) {
+      // If editing an appointment
+      dispatch(editAppointment(appointmentData));
+    } else {
+      // If adding a new appointment
+      dispatch(addAppointment(appointmentData));
+    }
+
+    // Send email
     emailjs
       .send("service_ddikcul", "template_odr0a8c", emailData, "Li6wdbLmAvMDclI_9")
       .then(
@@ -117,7 +128,8 @@ const AppointmentModal = ({
         }
       );
   };
-  
+
+
 
   return (
     <Modal open={isOpen} onClose={onClose}>

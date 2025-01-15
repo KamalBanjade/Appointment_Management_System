@@ -10,13 +10,23 @@ const appointmentSlice = createSlice({
   initialState,
   reducers: {
     addAppointment: (state, action) => {
-      state.list.push(action.payload);
+      // Adding appointment with `appointmentWith` and `date`
+      state.list.push({
+        ...action.payload,
+        appointmentWith: action.payload.appointmentWith,
+        date: action.payload.date,
+      });
       state.totalSN = state.list.length; // Update total count
     },
     editAppointment: (state, action) => {
       const index = state.list.findIndex((a) => a.id === action.payload.id);
       if (index !== -1) {
-        state.list[index] = action.payload;
+        state.list[index] = {
+          ...state.list[index],
+          ...action.payload,
+          appointmentWith: action.payload.appointmentWith,
+          date: action.payload.date,
+        };
       }
     },
     deleteAppointment: (state, action) => {
