@@ -10,6 +10,7 @@ import { format } from "date-fns"; // Import date-fns for date formatting
 
 const AppointmentsPage = () => {
   const appointments = useSelector((state) => state.appointments.list);
+  const totalSN = useSelector((state) => state.appointments.totalSN);
   const employees = useSelector((state) => state.employees.list);
   const dispatch = useDispatch();
   const [isModalOpen, setModalOpen] = useState(false);
@@ -49,7 +50,7 @@ const AppointmentsPage = () => {
         className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"}`}
       >
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">Appointment's List</h1>
+          <h1 className="text-2xl font-bold">Appointment's List: (Total appointments: {totalSN})</h1>
           <button
             onClick={() => openModal()}
             className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"

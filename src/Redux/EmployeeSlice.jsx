@@ -5,10 +5,12 @@ const EmployeeSlice = createSlice({
   initialState: {
     list: [], // Employee list
     isEmployeePanelOpen: false, // Controls the visibility of the employee panel
+    totalSN: 0,
   },
   reducers: {
     addEmployee: (state, action) => {
       state.list.push(action.payload);
+      state.totalSN = state.list.length; // Update total count
     },
     editEmployee: (state, action) => {
       const index = state.list.findIndex((emp) => emp.id === action.payload.id);
@@ -21,6 +23,7 @@ const EmployeeSlice = createSlice({
     },
     deleteEmployee: (state, action) => {
       state.list = state.list.filter((emp) => emp.id !== action.payload);
+      state.totalSN = state.list.length; // Update total count
     },
     updateEmployeeImage: (state, action) => {
       const { id, image } = action.payload;
