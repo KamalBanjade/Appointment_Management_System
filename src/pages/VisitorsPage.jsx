@@ -50,7 +50,7 @@ const VisitorPage = () => {
     >
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-xl font-bold">
-          Visitor's List: (Total Visitors: {totalSN})
+          Visitor's List:
         </h1>
         <button
           onClick={() => openModal()}

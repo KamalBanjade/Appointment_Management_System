@@ -54,7 +54,7 @@ const EmployeePage = () => {
           }`}
       >
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">Employee's List: (Total Employee: {totalSN})</h1>
+          <h1 className="text-2xl font-bold">Employee's List: </h1>
           <button
             onClick={openModalForNewEmployee}
             className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"

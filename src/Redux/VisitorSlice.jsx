@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   list: [],
-  totalSN: 0, // New property to store the total count of SN
+  totalSN: 0, 
 };
 
 const visitorSlice = createSlice({
