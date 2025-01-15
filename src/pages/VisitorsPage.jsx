@@ -10,6 +10,7 @@ import { format } from "date-fns";
 
 const VisitorPage = () => {
   const visitors = useSelector((state) => state.visitors.list);
+  const totalSN = useSelector((state) => state.visitors.totalSN); // Access total count from Redux state
   const dispatch = useDispatch();
   const [isModalOpen, setModalOpen] = useState(false);
   const [visitorToEdit, setVisitorToEdit] = useState(null);
@@ -36,26 +37,29 @@ const VisitorPage = () => {
     dispatch(deleteVisitor(id));
     toast.error("Visitor deleted successfully!");
   };
-  const formattedDate = (date) => {
-    return format(new Date(date), 'MMM dd, yyyy (HH:mm)'); // Use date-fns for formatting
-  };
 
+  const formattedDate = (date) => {
+    return format(new Date(date), "MMM dd, yyyy (HH:mm)"); // Use date-fns for formatting
+  };
   return (
     <div className="container mx-20 mt-10">
-      <div
-        className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
-          }`}
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-xl font-bold">Visitor's List:</h1>
-          <button
-            onClick={() => openModal()}
-            className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
-          >
-            Add Visitor
-          </button>
-        </div>
+    <div
+      className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${
+        isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
+      }`}
+    >
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-xl font-bold">
+          Visitor's List: (Total Visitors: {totalSN})
+        </h1>
+        <button
+          onClick={() => openModal()}
+          className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
+        >
+          Add Visitor
+        </button>
       </div>
+    </div>
       <div
         className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
           }`}
