@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Modal, TextField, Button, MenuItem, Box, IconButton, Grid, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addVisitor } from "../Redux/VisitorSlice";
 
 const VisitorModal = ({
   isOpen,
@@ -10,6 +12,7 @@ const VisitorModal = ({
   visitorToEdit,
   employee,
 }) => {
+  const dispatch = useDispatch();
   const defaultVisitorState = {
     name: "",
     email: "",
@@ -61,16 +64,20 @@ const VisitorModal = ({
     setVisitor(defaultVisitorState);
     setErrors({});
   };
-
-  const handleSubmit = () => {
+ 
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+  
     if (validateFields()) {
       const updatedVisitor = visitorToEdit
         ? { ...visitor }
         : { ...visitor, id: new Date().getTime() }; // Assign a unique ID for new visitors
-      onSave(updatedVisitor);
-      onClose();
+      
+      onSave(updatedVisitor); // Call the onSave prop
+      onClose(); // Close the modal
     }
   };
+  
 
   return (
     <Modal open={isOpen} onClose={onClose}>

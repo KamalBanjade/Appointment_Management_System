@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // Import default styles
 import Clock from "react-clock"; // Import the analog clock component
 import "react-clock/dist/Clock.css"; // Import the default clock styles
+import { Link } from "react-router-dom";
+
+
 
 const HomePage = () => {
     const visitors = useSelector((state) => state.visitors.list);
@@ -12,6 +15,7 @@ const HomePage = () => {
     const upcomingAppointments = appointments.length;
     const employees = useSelector((state) => state.employees.list);
     const activeEmployees = employees.length;
+    const latestVisitorName = useSelector((state) => state.visitors.latestVisitorName);
 
     const [stats, setStats] = useState({
         visitorsToday: visitorsToday,
@@ -22,8 +26,11 @@ const HomePage = () => {
     const [recentActivities, setRecentActivities] = useState([
         "John Doe checked in at 9:00 AM",
         "Appointment scheduled with Dr. Smith at 11:00 AM",
-        "New visitor: Jane Smith added",
+        <span key="latestVisitor">
+            New visitor: <Link to="/visitors" className="text-green-500 font-bold hover:underline">{latestVisitorName}</Link> added
+        </span>,
     ]);
+    
 
     const [date, setDate] = useState(new Date());
     const [time, setTime] = useState(new Date().toLocaleTimeString());
@@ -58,6 +65,7 @@ const HomePage = () => {
             {/* Recent Activities */}
             <div className="bg-white shadow rounded-lg p-6 mb-6">
                 <h2 className="text-2xl font-bold text-gray-700 mb-4">Recent Activities</h2>
+
                 <ul className="space-y-2">
                     {recentActivities.map((activity, index) => (
                         <li key={index} className="text-gray-600">
@@ -65,6 +73,7 @@ const HomePage = () => {
                         </li>
                     ))}
                 </ul>
+
             </div>
 
             {/* Layout for Calendar and Analog Clock */}

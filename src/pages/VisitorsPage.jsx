@@ -15,6 +15,7 @@ const VisitorPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [visitorToEdit, setVisitorToEdit] = useState(null);
   const isMenuOpen = useSelector((state) => state.employees.isEmployeePanelOpen);
+  
 
   const openModal = (visitor = null) => {
     setVisitorToEdit(visitor);
@@ -52,6 +53,7 @@ const VisitorPage = () => {
         <h1 className="text-xl font-bold">
           Visitor's List:
         </h1>
+        
         <button
           onClick={() => openModal()}
           className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"

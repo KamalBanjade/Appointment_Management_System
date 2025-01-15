@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const initialState = {
   list: [],
-  totalSN: 0, 
+  totalSN: 0,
+  latestVisitorName: "", // New property to store the latest visitor's name
 };
 
 const visitorSlice = createSlice({
@@ -12,6 +12,7 @@ const visitorSlice = createSlice({
     addVisitor: (state, action) => {
       state.list.push(action.payload);
       state.totalSN = state.list.length; // Update total count
+      state.latestVisitorName = action.payload.name; // Store the latest visitor's name
     },
     editVisitor: (state, action) => {
       const index = state.list.findIndex((v) => v.id === action.payload.id);
