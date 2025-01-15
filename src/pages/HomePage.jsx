@@ -15,18 +15,10 @@ const HomePage = () => {
     const activeEmployees = employees.length;
     const latestVisitorName = useSelector((state) => state.visitors.latestVisitorName);
 
-    const [stats, setStats] = useState({
-        visitorsToday: visitorsToday,
-        upcomingAppointments: appointments.length,
-        activeEmployees: activeEmployees,
-    });
+    // Get the latest employee
+    const latestEmployee = employees.length > 0 ? employees[employees.length - 1] : null;
 
-    const [recentActivities, setRecentActivities] = useState([
-        "Recently joined employee : John smith",
-        <span key="latestVisitor">
-            New visitor: <Link to="/visitors" className="text-blue-500 font-bold hover:underline">{latestVisitorName}</Link> added
-        </span>,
-    ]);
+    const [recentActivities, setRecentActivities] = useState([]);
 
     const [date, setDate] = useState(new Date());
     const [time, setTime] = useState(new Date().toLocaleTimeString());
@@ -40,30 +32,66 @@ const HomePage = () => {
         return () => clearInterval(timer); // Cleanup on component unmount
     }, []);
 
+    // Update recent activities whenever the latest visitor, latest appointment, or latest employee changes
     useEffect(() => {
-        if (appointments.length > 0) {
-          const latestAppointment = appointments[appointments.length - 1];
-          const appointmentDate = new Date(latestAppointment.date);
-          const formattedDate = formatDate(appointmentDate);
-          const formattedTime = formatTime(appointmentDate);
-      
-          const latestActivity = (
-            <span key={`appointment-${latestAppointment.id}`}>
-              Appointment scheduled with{" "}
-              <Link
-                to="/appointments"
-                className="text-green-500 font-bold hover:underline"
-              >
-                {latestAppointment.appointmentWith}
-              </Link>{" "}
-              on {formattedDate} at {formattedTime}
-            </span>
-          );
-      
-          setRecentActivities((prevActivities) => [...prevActivities, latestActivity]);
+        const activities = [];
+    
+        // Add visitor activity first
+        if (latestVisitorName) {
+            activities.push(
+                <span key="latestVisitor">
+                    A new visitor,{" "}
+                    <Link
+                        to="/visitors"
+                        className="text-blue-500 font-bold hover:underline"
+                    >
+                        {latestVisitorName}
+                    </Link>{" "}
+                    , has just checked in!
+                </span>
+            );
         }
-      }, [appointments]);
-      
+    
+        // Add appointment activity second
+        if (appointments.length > 0) {
+            const latestAppointment = appointments[appointments.length - 1];
+            const appointmentDate = new Date(latestAppointment.date);
+            const formattedDate = formatDate(appointmentDate);
+            const formattedTime = formatTime(appointmentDate);
+    
+            activities.push(
+                <span key={`appointment-${latestAppointment.id}`}>
+                    An appointment is set with{" "}
+                    <Link
+                        to="/appointments"
+                        className="text-green-500 font-bold hover:underline"
+                    >
+                        {latestAppointment.appointmentWith}
+                    </Link>{" "}
+                    for {formattedDate} at {formattedTime}
+                </span>
+            );
+        }
+    
+        // Add employee activity last
+        if (latestEmployee) {
+            activities.push(
+                <span key="latestEmployee">
+                    New team member on board:{" "}
+                    <Link
+                        to="/employees"
+                        className="text-purple-500 font-bold hover:underline"
+                    >
+                        {latestEmployee.name} 🎊🎊
+                    </Link>
+                </span>
+            );
+        }
+    
+        setRecentActivities(activities);
+    }, [latestVisitorName, appointments, latestEmployee]);
+    
+
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
             {/* Dashboard Overview */}

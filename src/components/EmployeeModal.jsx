@@ -10,6 +10,9 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addEmployee } from "../Redux/EmployeeSlice";
+
 
 const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
   const [employee, setEmployee] = useState({
@@ -67,12 +70,23 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
     }
   };
 
-  const handleSubmit = () => {
-    if (validateFields()) {
-      onSave(employee);
-      onClose();
+  const dispatch = useDispatch();
+
+const handleSubmit = () => {
+  if (validateFields()) {
+    if (!employee.id) {
+      // Generate a unique ID for the new employee
+      const newEmployee = { ...employee, id: Date.now() };
+      // dispatch(addEmployee(newEmployee)); // Dispatch the action to Redux
+    } else {
+      // Handle editing if employee already has an ID
+      dispatch(editEmployee(employee));
     }
-  };
+    onSave(employee);
+    onClose();
+  }
+};
+
 
   return (
     <Modal open={isOpen} onClose={onClose}>
