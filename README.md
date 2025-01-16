@@ -66,7 +66,7 @@ Start the Development Server
 Open in Your Browser
 - Visit http://localhost:5173 to see the app in action!
 ---
-Folder Structure 📂
+###Folder Structure 📂
 
 appointment-management-system/
 ├── public/                  # Static assets
