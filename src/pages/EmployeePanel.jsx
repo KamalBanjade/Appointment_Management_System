@@ -93,7 +93,7 @@ const EmployeePanel = () => {
   if (!isPanelOpen) return null;
 
   return (
-    <div className="fixed top-16 right-0 w-[30.5%] h-[calc(100vh-4rem)] mt-6 bg-gray-100 shadow-lg p-3 overflow-y-auto z-50 transition-transform transform duration-300 ease-in-out rounded-lg">
+    <div className="fixed top-16 right-0 w-[30.5%] h-[calc(100vh-4rem)] ml-3 mt-6 bg-gray-100 shadow-lg p-3 overflow-y-auto z-50 transition-transform transform duration-300 ease-in-out rounded-lg">
       <h2 className="text-lg font-bold mb-4 text-gray-800">Employee List:</h2>
 
       <div className="mb-6">
@@ -140,7 +140,7 @@ const EmployeePanel = () => {
         filteredEmployees.map((employee) => (
           <div
             key={employee.id}
-            className="shadow-lg p-4 rounded-lg mb-4 border border-gray-200 bg-white hover:shadow-xl transition-shadow duration-300"
+            className="shadow-lg p-3 rounded-lg mb-4 border border-gray-200 bg-white hover:shadow-xl transition-shadow duration-300"
           >
             <div className="flex items-start space-x-4">
               {/* Employee Image */}
