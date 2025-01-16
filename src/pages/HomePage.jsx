@@ -4,7 +4,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Clock from "react-clock";
 import "react-clock/dist/Clock.css";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // Import Link
 import { formatDate, formatTime } from "../utils/dateUtils";
 import { motion } from "framer-motion";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
@@ -29,6 +29,8 @@ const HomePage = () => {
   const [activityFilter, setActivityFilter] = useState("all");
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date().toLocaleTimeString());
+
+  const isPanelOpen = useSelector((state) => state.employees.isEmployeePanelOpen);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -99,7 +101,11 @@ const HomePage = () => {
   });
 
   return (
-    <div className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div
+      className={`p-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen transition-all duration-300 ${
+        isPanelOpen ? "mr-[30.5%]" : "mr-0"
+      }`}
+    >
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -113,64 +119,71 @@ const HomePage = () => {
         </div>
       </motion.div>
 
+      {/* Rest of the HomePage content */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         {/* Visitors Today Card */}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:shadow-2xl"
-        >
-          <div className="flex items-center space-x-4">
-            <div className="p-3 bg-blue-100 rounded-full">
-              <PeopleAltIcon fontSize="large" className="text-blue-500" />
+        <Link to="/visitors">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:shadow-2xl cursor-pointer"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-blue-100 rounded-full">
+                <PeopleAltIcon fontSize="large" className="text-blue-500" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-700">Visitors Today</h3>
+                <p className="text-3xl font-semibold text-blue-500 mt-2">
+                  {visitorsToday}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xl font-bold text-gray-700">Visitors Today</h3>
-              <p className="text-3xl font-semibold text-blue-500 mt-2">
-                {visitorsToday}
-              </p>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </Link>
 
         {/* Upcoming Appointments Card */}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:shadow-2xl"
-        >
-          <div className="flex items-center space-x-4">
-            <div className="p-3 bg-green-100 rounded-full">
-              <EventNoteIcon fontSize="large" className="text-green-500" />
+        <Link to="/appointments">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:shadow-2xl cursor-pointer"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-green-100 rounded-full">
+                <EventNoteIcon fontSize="large" className="text-green-500" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-700">
+                  Upcoming Appointments
+                </h3>
+                <p className="text-3xl font-semibold text-green-500 mt-2">
+                  {appointments.length}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xl font-bold text-gray-700">
-                Upcoming Appointments
-              </h3>
-              <p className="text-3xl font-semibold text-green-500 mt-2">
-                {appointments.length}
-              </p>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </Link>
 
         {/* Active Employees Card */}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:shadow-2xl"
-        >
-          <div className="flex items-center space-x-4">
-            <div className="p-3 bg-purple-100 rounded-full">
-              <GroupIcon fontSize="large" className="text-purple-500" />
+        <Link to="/employees">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:shadow-2xl cursor-pointer"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-purple-100 rounded-full">
+                <GroupIcon fontSize="large" className="text-purple-500" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-700">
+                  Active Employees
+                </h3>
+                <p className="text-3xl font-semibold text-purple-500 mt-2">
+                  {activeEmployees}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xl font-bold text-gray-700">
-                Active Employees
-              </h3>
-              <p className="text-3xl font-semibold text-purple-500 mt-2">
-                {activeEmployees}
-              </p>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </Link>
       </div>
 
       {/* Recent Activities Section */}

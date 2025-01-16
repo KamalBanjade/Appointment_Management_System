@@ -83,7 +83,7 @@ const VisitorPage = () => {
                 key={visitor.id}
                 className="hover:bg-gradient-to-r from-gray-50 to-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-md"
               >
-                <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium text-center">
+                <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
                   {index + 1}
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
@@ -97,13 +97,13 @@ const VisitorPage = () => {
                     {visitor.phoneNumber}
                   </a>
                 </td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
+                <td className="border border-gray-200 px-4 py-2 text-gray-800">
                   {visitor.visitReason}
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-700">
                   {formattedDate(visitor.visitDate)}
                 </td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-700">
+                <td className="border border-gray-200 px-4 py-2 font-medium text-gray-700">
                   {visitor.appointmentWith}
                 </td>
                 <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">

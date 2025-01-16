@@ -83,13 +83,13 @@ const EmployeePage = () => {
                 key={employee.id}
                 className="hover:bg-gradient-to-r from-gray-50 to-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-md"
               >
-                <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium text-center">
+                <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
                   {index + 1}
                 </td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
+                <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium text-center">
                   <span className="inline-block px-3 py-1 text-sm">{employee.name}</span>
                 </td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-700">
+                <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
                   <a
                     href={`tel:${employee.mobileNumber}`}
                     className="text-blue-500 hover:underline hover:text-blue-600 transition-all duration-300"
@@ -97,13 +97,13 @@ const EmployeePage = () => {
                     {employee.mobileNumber}
                   </a>
                 </td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium">
+                <td className="border border-gray-200 px-4 py-2 text-gray-700  text-center">
                   <span className="inline-block px-2 py-1 text-sm">{employee.officeTime || "-"}</span>
                 </td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium">
+                <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium text-center">
                   {employee.department}
                 </td>
-                <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">
+                <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2 text-center">
                   <IconButton
                     onClick={() => handleEditEmployee(employee)}
                     color="success"

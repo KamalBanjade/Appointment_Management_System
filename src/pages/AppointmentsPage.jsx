@@ -81,13 +81,13 @@ const AppointmentsPage = () => {
                   key={appointment.id} // Use the unique 'id' as the key
                   className="hover:bg-gradient-to-r from-gray-50 to-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-md"
                 >
-                  <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium text-center">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
                     {index + 1} {/* Use 'index' only for display, not as a key */}
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium text-center">
                     <span className="inline-block px-3 py-1 text-sm">{appointment.visitorName}</span>
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 text-gray-700">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
                     <a
                       href={`tel:${appointment.phoneNumber}`}
                       className="text-blue-500 hover:underline hover:text-blue-600 transition-all duration-300"
@@ -95,16 +95,16 @@ const AppointmentsPage = () => {
                       {appointment.phoneNumber}
                     </a>
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-800 text-center">
                     <span className="inline-block px-2 py-1 text-sm">{appointment.reason}</span>
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 text-gray-700">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
                     {formattedDate(appointment.date)}
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 text-gray-700">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium text-center">
                     {appointment.appointmentWith}
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">
+                  <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2 text-center">
                     <IconButton
                       onClick={() => openModal(appointment)}
                       color="success"
