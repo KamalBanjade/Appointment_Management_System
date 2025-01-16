@@ -3,7 +3,6 @@ import { Modal, TextField, Button, MenuItem, Box, IconButton, Grid, Typography }
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { addVisitor } from "../Redux/VisitorSlice";
 
 const VisitorModal = ({
   isOpen,
@@ -21,7 +20,6 @@ const VisitorModal = ({
     visitDate: "",
     appointmentWith: employee?.department || "",
   };
-
 
   const [visitor, setVisitor] = useState(defaultVisitorState);
   const [errors, setErrors] = useState({});
@@ -44,7 +42,7 @@ const VisitorModal = ({
     if (!visitor.email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(visitor.email)) {
       newErrors.email = "Valid email is required.";
     }
-    if (!visitor.phoneNumber || !/^\d{10}$/.test(visitor.phoneNumber)) {
+    if (!visitor.phoneNumber) {
       newErrors.phoneNumber = "Valid phone number is required.";
     }
     if (!visitor.visitReason) newErrors.visitReason = "Reason is required.";
@@ -64,20 +62,19 @@ const VisitorModal = ({
     setVisitor(defaultVisitorState);
     setErrors({});
   };
- 
+
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-  
+
     if (validateFields()) {
       const updatedVisitor = visitorToEdit
         ? { ...visitor }
         : { ...visitor, id: new Date().getTime() }; // Assign a unique ID for new visitors
-      
+
       onSave(updatedVisitor); // Call the onSave prop
       onClose(); // Close the modal
     }
   };
-  
 
   return (
     <Modal open={isOpen} onClose={onClose}>
@@ -95,6 +92,7 @@ const VisitorModal = ({
           marginTop: "10vh",
           outline: "none",
           position: "relative",
+          background: "linear-gradient(145deg, #ffffff, #f9f9f9)",
         }}
       >
         {/* Close Icon */}
@@ -128,6 +126,7 @@ const VisitorModal = ({
             marginBottom: "20px",
             borderBottom: "2px solid #dee2e6",
             paddingBottom: "8px",
+            color: "#3B82F6",
           }}
         >
           {visitorToEdit ? "Edit Visitor" : "Add Visitor"}
@@ -145,6 +144,13 @@ const VisitorModal = ({
             variant="outlined"
             error={!!errors.name}
             helperText={errors.name}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#3B82F6",
+                },
+              },
+            }}
           />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -158,6 +164,13 @@ const VisitorModal = ({
                 variant="outlined"
                 error={!!errors.email}
                 helperText={errors.email}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&:hover fieldset": {
+                      borderColor: "#3B82F6",
+                    },
+                  },
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -171,6 +184,13 @@ const VisitorModal = ({
                 variant="outlined"
                 error={!!errors.phoneNumber}
                 helperText={errors.phoneNumber}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&:hover fieldset": {
+                      borderColor: "#3B82F6",
+                    },
+                  },
+                }}
               />
             </Grid>
           </Grid>
@@ -186,23 +206,54 @@ const VisitorModal = ({
             variant="outlined"
             error={!!errors.visitReason}
             helperText={errors.visitReason}
-          />
-          <TextField
-            label="Date"
-            name="visitDate"
-            type="datetime-local"
-            value={visitor.visitDate}
-            onChange={handleChange}
-            fullWidth
-            required
-            InputLabelProps={{
-              shrink: true,
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#3B82F6",
+                },
+              },
             }}
-            variant="outlined"
-            error={!!errors.visitDate}
-            helperText={errors.visitDate}
           />
-          
+
+          {/* Date Input with Clickable Area */}
+          <Box
+            onClick={() => document.getElementById("visitDate")}
+            sx={{
+              cursor: "pointer",
+              "&:hover": {
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#3B82F6",
+                  },
+                },
+              },
+            }}
+          >
+            <TextField
+              id="visitDate"
+              label="Date"
+              name="visitDate"
+              type="datetime-local"
+              value={visitor.visitDate}
+              onChange={handleChange}
+              fullWidth
+              required
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              error={!!errors.visitDate}
+              helperText={errors.visitDate}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#3B82F6",
+                  },
+                },
+              }}
+            />
+          </Box>
+
           <TextField
             select
             label="Appointment With"
@@ -214,6 +265,13 @@ const VisitorModal = ({
             variant="outlined"
             error={!!errors.appointmentWith}
             helperText={errors.appointmentWith || "Select a department for the appointment."}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#3B82F6",
+                },
+              },
+            }}
           >
             <MenuItem value="">
               <em>Select a Department</em>
@@ -224,8 +282,6 @@ const VisitorModal = ({
               </MenuItem>
             ))}
           </TextField>
-
-          
         </Box>
 
         {/* Action Buttons */}
@@ -238,6 +294,14 @@ const VisitorModal = ({
             style={{
               borderRadius: "8px",
               padding: "8px 16px",
+              background: "linear-gradient(145deg, #ff9800, #fb8c00)",
+              color: "white",
+              transition: "transform 0.2s ease-in-out",
+            }}
+            sx={{
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
             }}
           >
             Clear
@@ -250,6 +314,14 @@ const VisitorModal = ({
             style={{
               borderRadius: "8px",
               padding: "8px 16px",
+              background: "linear-gradient(145deg, #3B82F6, #2563eb)",
+              color: "white",
+              transition: "transform 0.2s ease-in-out",
+            }}
+            sx={{
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
             }}
           >
             Save

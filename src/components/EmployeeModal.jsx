@@ -11,8 +11,7 @@ import {
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { addEmployee } from "../Redux/EmployeeSlice";
-
+import { addEmployee, editEmployee } from "../Redux/EmployeeSlice";
 
 const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
   const [employee, setEmployee] = useState({
@@ -72,22 +71,17 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
 
   const dispatch = useDispatch();
 
-const handleSubmit = () => {
-  if (validateFields()) {
-    if (!employee.id) {
-      // Generate a unique ID for the new employee
-      const newEmployee = { ...employee, id: Date.now() };
-      // dispatch(addEmployee(newEmployee)); // Dispatch the action to Redux
-    } else {
-      // Handle editing if employee already has an ID
-      dispatch(editEmployee(employee));
+  const handleSubmit = () => {
+    if (validateFields()) {
+      if (!employee.id) {
+        const newEmployee = { ...employee, id: Date.now() };
+        onSave(newEmployee); // Call onSave with the new employee
+      } else {
+        onSave(employee); // Call onSave with the edited employee
+      }
+      onClose(); // Close the modal
     }
-    onSave(employee);
-    onClose();
-  }
-};
-
-
+  };
   return (
     <Modal open={isOpen} onClose={onClose}>
       <motion.div
@@ -95,24 +89,28 @@ const handleSubmit = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
         style={{
-          backgroundColor: "white",
+          backgroundColor: "#f8f9fa",
           borderRadius: "16px",
           boxShadow: "0 8px 24px rgba(0, 0, 0, 0.2)",
-          padding: "24px",
+          padding: "32px",
           maxWidth: "650px",
           margin: "auto",
           marginTop: "10vh",
           outline: "none",
           position: "relative",
+          background: "linear-gradient(145deg, #ffffff, #f9f9f9)",
+          maxHeight: "90vh", // Set max height for the modal
+          overflowY: "auto", // Enable vertical scrolling
         }}
       >
         {/* Close Icon */}
         <IconButton
           onClick={onClose}
+          aria-label="Close modal"
           style={{
             position: "absolute",
-            top: "12px",
-            right: "12px",
+            top: "16px",
+            right: "16px",
             backgroundColor: "rgba(0, 0, 0, 0.05)",
             transition: "transform 0.2s ease-in-out",
           }}
@@ -126,6 +124,7 @@ const handleSubmit = () => {
         >
           <FaTimes />
         </IconButton>
+
         <Typography
           variant="h5"
           component="h2"
@@ -135,10 +134,12 @@ const handleSubmit = () => {
             marginBottom: "20px",
             borderBottom: "2px solid #dee2e6",
             paddingBottom: "8px",
+            color: "#3B82F6",
           }}
         >
           {employeeToEdit ? "Edit Employee" : "Add Employee"}
         </Typography>
+
         <Box component="form" className="space-y-4">
           {/* Fields in a grid layout */}
           <Box
@@ -157,6 +158,13 @@ const handleSubmit = () => {
               variant="outlined"
               error={!!errors.name}
               helperText={errors.name}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#3B82F6",
+                  },
+                },
+              }}
             />
             <TextField
               label="Address"
@@ -165,6 +173,13 @@ const handleSubmit = () => {
               onChange={handleChange}
               fullWidth
               variant="outlined"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#3B82F6",
+                  },
+                },
+              }}
             />
             <TextField
               label="Mobile Number"
@@ -177,6 +192,13 @@ const handleSubmit = () => {
               variant="outlined"
               error={!!errors.mobileNumber}
               helperText={errors.mobileNumber}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#3B82F6",
+                  },
+                },
+              }}
             />
             <TextField
               label="Email"
@@ -189,6 +211,13 @@ const handleSubmit = () => {
               variant="outlined"
               error={!!errors.email}
               helperText={errors.email}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#3B82F6",
+                  },
+                },
+              }}
             />
           </Box>
           <TextField
@@ -202,6 +231,13 @@ const handleSubmit = () => {
             variant="outlined"
             error={!!errors.department}
             helperText={errors.department}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#3B82F6",
+                },
+              },
+            }}
           >
             <MenuItem value="">
               <em>Select a Department</em>
@@ -219,6 +255,13 @@ const handleSubmit = () => {
             onChange={handleChange}
             fullWidth
             variant="outlined"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#3B82F6",
+                },
+              },
+            }}
           />
           <div className="image-upload" style={{ marginTop: "16px" }}>
             <Typography variant="subtitle1" style={{ marginBottom: "8px" }}>
@@ -234,6 +277,7 @@ const handleSubmit = () => {
                 border: "1px solid #ccc",
                 padding: "8px",
                 borderRadius: "8px",
+                transition: "border-color 0.3s ease",
               }}
             />
             {employee.image && (
@@ -247,12 +291,15 @@ const handleSubmit = () => {
                     objectFit: "cover",
                     borderRadius: "50%",
                     border: "2px solid #ccc",
+                    transition: "transform 0.3s ease",
                   }}
+                  className="hover:scale-105"
                 />
               </div>
             )}
           </div>
         </Box>
+
         <div className="mt-6 flex justify-between">
           <Button
             onClick={() =>
@@ -272,24 +319,38 @@ const handleSubmit = () => {
             style={{
               padding: "8px 24px",
               borderRadius: "8px",
+              background: "linear-gradient(145deg, #ff9800, #fb8c00)",
+              color: "white",
+              transition: "transform 0.2s ease-in-out",
+            }}
+            sx={{
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
             }}
           >
             Clear
           </Button>
-          <div className="flex space-x-2">
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              color="primary"
-              size="large"
-              style={{
-                padding: "8px 24px",
-                borderRadius: "8px",
-              }}
-            >
-              Save
-            </Button>
-          </div>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            color="primary"
+            size="large"
+            style={{
+              padding: "8px 24px",
+              borderRadius: "8px",
+              background: "linear-gradient(145deg, #3B82F6, #2563eb)",
+              color: "white",
+              transition: "transform 0.2s ease-in-out",
+            }}
+            sx={{
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
+            }}
+          >
+            Save
+          </Button>
         </div>
       </motion.div>
     </Modal>

@@ -46,7 +46,6 @@ const AppointmentModal = ({
     }
   }, [selectedEmployee]);
 
-
   const validateFields = () => {
     const newErrors = {};
     if (!appointment.visitorName) newErrors.visitorName = "Name is required.";
@@ -71,55 +70,48 @@ const AppointmentModal = ({
 
   const handleSubmit = () => {
     if (!validateFields()) return;
-
+  
     const selectedEmployee = employees.find(
       (employee) => employee.name === appointment.appointmentWith
     );
-
+  
     if (!selectedEmployee || !selectedEmployee.email) {
       alert("Email not found for the selected employee.");
       return;
     }
-
+  
     const employeeEmail = selectedEmployee.email;
-
+  
     const appointmentDate = new Date(appointment.date);
-    const formattedDate = formatDate(new Date(appointment.date));
-    const formattedTime = formatTime(new Date(appointment.date));
-
+    const formattedDate = formatDate(appointmentDate);
+    const formattedTime = formatTime(appointmentDate);
+  
     const emailData = {
       visitor_Name: appointment.visitorName,
       recipient_name: appointment.appointmentWith,
       appointment_date: formattedDate,
       appointment_time: formattedTime,
-      department: selectedEmployee.department || "No department", // Ensure department is set
+      department: selectedEmployee.department || "No department",
       office_contact: appointment.phoneNumber,
       to_email: employeeEmail,
     };
-
+  
     console.log("Email Data:", emailData);
-
-    // Save appointment to Redux store
+  
     const appointmentData = {
       ...appointment,
-      id: appointment.id || Date.now().toString(), // Generate an ID for new appointments
+      id: appointment.id || Date.now().toString(),
     };
-
-    if (appointmentToEdit) {
-      // If editing an appointment
-      dispatch(editAppointment(appointmentData));
-    } else {
-      // If adding a new appointment
-      dispatch(addAppointment(appointmentData));
-    }
-
+  
+    // Use `onSave` for Redux action dispatching
+    onSave(appointmentData);
+  
     // Send email
     emailjs
       .send("service_ddikcul", "template_odr0a8c", emailData, "Li6wdbLmAvMDclI_9")
       .then(
         (response) => {
           console.log("Email sent successfully!", response.status, response.text);
-          onSave(appointment);
           onClose();
         },
         (error) => {
@@ -128,8 +120,7 @@ const AppointmentModal = ({
         }
       );
   };
-
-
+  
 
   return (
     <Modal open={isOpen} onClose={onClose}>
@@ -147,6 +138,7 @@ const AppointmentModal = ({
           marginTop: "10vh",
           outline: "none",
           position: "relative",
+          background: "linear-gradient(145deg, #ffffff, #f9f9f9)",
         }}
       >
         <IconButton
@@ -175,7 +167,7 @@ const AppointmentModal = ({
             fontSize: "1.5rem",
             fontWeight: "bold",
             textAlign: "center",
-            color: "#495057",
+            color: "#3B82F6",
             marginBottom: "20px",
             borderBottom: "2px solid #dee2e6",
             paddingBottom: "8px",
@@ -196,6 +188,13 @@ const AppointmentModal = ({
             error={!!errors.visitorName}
             helperText={errors.visitorName}
             style={{ backgroundColor: "#fff", borderRadius: "8px" }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#3B82F6",
+                },
+              },
+            }}
           />
           <TextField
             label="Phone Number"
@@ -209,6 +208,13 @@ const AppointmentModal = ({
             error={!!errors.phoneNumber}
             helperText={errors.phoneNumber}
             style={{ backgroundColor: "#fff", borderRadius: "8px" }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#3B82F6",
+                },
+              },
+            }}
           />
           <TextField
             label="Reason"
@@ -223,6 +229,13 @@ const AppointmentModal = ({
             error={!!errors.reason}
             helperText={errors.reason}
             style={{ backgroundColor: "#fff", borderRadius: "8px" }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#3B82F6",
+                },
+              },
+            }}
           />
           <TextField
             label="Date"
@@ -239,6 +252,13 @@ const AppointmentModal = ({
             error={!!errors.date}
             helperText={errors.date}
             style={{ backgroundColor: "#fff", borderRadius: "8px" }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#3B82F6",
+                },
+              },
+            }}
           />
           <TextField
             select
@@ -252,6 +272,13 @@ const AppointmentModal = ({
             error={!!errors.appointmentWith}
             helperText={errors.appointmentWith || "Select an employee for the appointment."}
             style={{ backgroundColor: "#fff", borderRadius: "8px" }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#3B82F6",
+                },
+              },
+            }}
           >
             {employees.map((employee) => (
               <MenuItem key={employee.email} value={employee.name}>
@@ -271,6 +298,14 @@ const AppointmentModal = ({
               borderRadius: "8px",
               padding: "8px 16px",
               textTransform: "none",
+              background: "linear-gradient(145deg, #ff9800, #fb8c00)",
+              color: "white",
+              transition: "transform 0.2s ease-in-out",
+            }}
+            sx={{
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
             }}
           >
             Clear
@@ -284,6 +319,14 @@ const AppointmentModal = ({
               borderRadius: "8px",
               padding: "8px 16px",
               textTransform: "none",
+              background: "linear-gradient(145deg, #3B82F6, #2563eb)",
+              color: "white",
+              transition: "transform 0.2s ease-in-out",
+            }}
+            sx={{
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
             }}
           >
             Save
