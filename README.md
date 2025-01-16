@@ -66,8 +66,9 @@ Start the Development Server
 Open in Your Browser
 - Visit http://localhost:5173 to see the app in action!
 ---
-Folder Structure 📂
 
+###Folder Structure 📂
+```
 appointment-management-system/
 ├── public/                  # Static assets
 ├── src/
@@ -78,7 +79,7 @@ appointment-management-system/
 │   └── styles/              # CSS or styled-components
 ├── package.json             # Project dependencies
 └── README.md                # You're here!
-
+```
 ---
 Acknowledgments 🙏
 - React and Redux: For making state management a breeze.
