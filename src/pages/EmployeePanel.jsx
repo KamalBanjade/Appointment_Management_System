@@ -68,8 +68,6 @@ const EmployeePanel = () => {
     closeModals();
   };
 
-
-
   const handleSaveVisitor = (visitor) => {
     if (!selectedEmployee || !selectedEmployee.id) {
       toast.error("No employee selected for the visitor.");
@@ -92,11 +90,10 @@ const EmployeePanel = () => {
     closeModals();
   };
 
-
   if (!isPanelOpen) return null;
 
   return (
-    <div className="fixed top-16 right-0 w-[32%] h-[calc(100vh-4rem)] bg-gray-100 shadow-lg p-4 overflow-y-auto z-50 transition-transform transform duration-300 ease-in-out">
+    <div className="fixed top-16 right-0 w-[30.5%] h-[calc(100vh-4rem)] mt-6 bg-gray-100 shadow-lg p-3 overflow-y-auto z-50 transition-transform transform duration-300 ease-in-out rounded-lg">
       <h2 className="text-lg font-bold mb-4 text-gray-800">Employee List:</h2>
 
       <div className="mb-6">
@@ -134,7 +131,6 @@ const EmployeePanel = () => {
         />
       </div>
 
-
       {/* Employee List or No Employees Message */}
       {filteredEmployees.length === 0 ? (
         <div className="flex justify-center items-center text-gray-500 text-md">
@@ -144,7 +140,7 @@ const EmployeePanel = () => {
         filteredEmployees.map((employee) => (
           <div
             key={employee.id}
-            className="shadow-lg p-4 rounded-lg mb-4 border border-gray-200 bg-gray-300"
+            className="shadow-lg p-4 rounded-lg mb-4 border border-gray-200 bg-white hover:shadow-xl transition-shadow duration-300"
           >
             <div className="flex items-start space-x-4">
               {/* Employee Image */}
@@ -155,13 +151,13 @@ const EmployeePanel = () => {
                       ? URL.createObjectURL(employee.image)
                       : employee.image || "/default-image.png"}
                     alt={employee.name || "Employee"}
-                    className="h-16 w-16 object-cover rounded-full border border-gray-300"
+                    className="h-16 w-16 object-cover rounded-full border-2 border-gray-300 hover:border-blue-500 transition-all duration-300"
                   />
 
                   {/* Action Buttons */}
                   <div className="flex space-x-2">
                     <button
-                      className="btn px-3 py-1 rounded text-white bg-blue-500 hover:bg-blue-600 transition"
+                      className="btn px-3 py-1 rounded text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg"
                       title="Add Visitor"
                       onClick={() => openModal(employee, "visitor")}
                     >
@@ -172,7 +168,7 @@ const EmployeePanel = () => {
                       />
                     </button>
                     <button
-                      className="btn px-3 py-1 rounded text-white bg-gray-500 hover:bg-green-600 transition"
+                      className="btn px-3 py-1 rounded text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg"
                       title="Add Appointment"
                       onClick={() => openModal(employee, "appointment")}
                     >
@@ -209,7 +205,6 @@ const EmployeePanel = () => {
       )}
 
       {/* Visitor Modal */}
-
       {isVisitorModalOpen && (
         <VisitorModal
           isOpen={isVisitorModalOpen}
@@ -218,7 +213,6 @@ const EmployeePanel = () => {
           onSave={handleSaveVisitor}
         />
       )}
-
 
       {/* Appointment Modal */}
       {isAppointmentModalOpen && (

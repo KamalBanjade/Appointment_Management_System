@@ -37,23 +37,22 @@ const AppointmentsPage = () => {
   const handleDeleteAppointment = (id) => {
     dispatch(deleteAppointment(id));
     toast.error("Appointment deleted successfully!", { autoClose: 3000 });
-  }
-
+  };
 
   const formattedDate = (date) => {
     return format(new Date(date), 'MMM dd, yyyy (HH:mm)'); // Use date-fns for formatting
   };
 
   return (
-    <div className="container mx-20 mt-10">
+    <div className="container mx-auto px-4 py-8">
       <div
-        className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"}`}
+        className={` transition-all duration-300 ease-in-out bg-white rounded-lg shadow-sm ${isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"}`}
       >
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">Appointment's List:</h1>
+        <div className="flex items-center justify-between mb-6 p-6">
+          <h1 className="text-2xl font-bold text-gray-800">Appointment's List</h1>
           <button
             onClick={() => openModal()}
-            className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
+            className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:from-green-600 hover:to-green-700 transition-all duration-300"
           >
             Add Appointment
           </button>
@@ -61,12 +60,12 @@ const AppointmentsPage = () => {
       </div>
 
       <div
-        className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"}`}
+        className={`mt-6 transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg ${isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"}`}
       >
         <div className="overflow-x-auto"> {/* Make table scrollable on small screens */}
-          <table className="w-full text-sm text-center text-gray-700 shadow-lg rounded-lg overflow-hidden">
+          <table className="w-full text-sm text-gray-700 rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
+            <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
                 <th className="border border-gray-300 px-4 py-3 text-center font-semibold">SN</th>
                 <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Visitor's Name</th>
                 <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Phone Number</th>
@@ -80,28 +79,32 @@ const AppointmentsPage = () => {
               {appointments.map((appointment, index) => (
                 <tr
                   key={appointment.id} // Use the unique 'id' as the key
-                  className="hover:bg-gradient-to-r from-gray-100 to-gray-200 transition-all duration-300 transform"
+                  className="hover:bg-gradient-to-r from-gray-50 to-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-md"
                 >
-                  <td className="border border-gray-200 px-4 py-2 text-gray-600 font-medium">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium text-center">
                     {index + 1} {/* Use 'index' only for display, not as a key */}
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 text-gray-600 font-medium">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
                     <span className="inline-block px-3 py-1 text-sm">{appointment.visitorName}</span>
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 text-gray-600">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-700">
                     <a
                       href={`tel:${appointment.phoneNumber}`}
-                      className="text-blue-500 hover:underline hover:text-blue-600"
+                      className="text-blue-500 hover:underline hover:text-blue-600 transition-all duration-300"
                     >
                       {appointment.phoneNumber}
                     </a>
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 text-gray-600 font-medium">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
                     <span className="inline-block px-2 py-1 text-sm">{appointment.reason}</span>
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 text-gray-600 font-small">{formattedDate(appointment.date)}</td>
-                  <td className="border border-gray-200 px-4 py-2 text-gray-600 font-medium">{appointment.appointmentWith}</td>
-                  <td className="border border-gray-200 px-4 py-2 flex space-x-2">
+                  <td className="border border-gray-200 px-4 py-2 text-gray-700">
+                    {formattedDate(appointment.date)}
+                  </td>
+                  <td className="border border-gray-200 px-4 py-2 text-gray-700">
+                    {appointment.appointmentWith}
+                  </td>
+                  <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">
                     <IconButton
                       onClick={() => openModal(appointment)}
                       color="success"
@@ -144,9 +147,6 @@ const AppointmentsPage = () => {
                 </tr>
               ))}
             </tbody>
-
-
-
           </table>
         </div>
       </div>
@@ -161,7 +161,18 @@ const AppointmentsPage = () => {
         />
       )}
 
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };

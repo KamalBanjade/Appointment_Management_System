@@ -15,7 +15,6 @@ const VisitorPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [visitorToEdit, setVisitorToEdit] = useState(null);
   const isMenuOpen = useSelector((state) => state.employees.isEmployeePanelOpen);
-  
 
   const openModal = (visitor = null) => {
     setVisitorToEdit(visitor);
@@ -42,40 +41,39 @@ const VisitorPage = () => {
   const formattedDate = (date) => {
     return format(new Date(date), "MMM dd, yyyy (HH:mm)"); // Use date-fns for formatting
   };
+
   return (
-    <div className="container mx-20 mt-10">
-    <div
-      className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${
-        isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
-      }`}
-    >
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold">
-          Visitor's List:
-        </h1>
-        
-        <button
+    <div className="container mx-auto px-4 py-8">
+      <div
+        className={`transition-all duration-300 ease-in-out bg-white rounded-lg shadow-sm ${
+          isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
+        }`}
+      >
+        <div className="flex items-center justify-between mb-6 p-6">
+          <h1 className="text-2xl font-bold text-gray-800">Visitor's List</h1>
+          <button
           onClick={() => openModal()}
-          className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
+          className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
         >
           Add Visitor
         </button>
+        </div>
       </div>
-    </div>
+
       <div
-        className={`mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg ${isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
-          }`}
+        className={`mt-6 transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg ${
+          isMenuOpen ? "w-auto md:w-3/4 lg:w-3/4" : "w-auto"
+        }`}
       >
         <table className="w-full text-sm text-gray-700 shadow-lg rounded-lg overflow-hidden text-center ">
           <thead>
-            <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
+          <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">SN</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Visitor Name</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Phone Number</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Reason</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Date (Time)</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Visit with (Department)</th>
-
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Actions</th>
             </tr>
           </thead>
@@ -83,9 +81,9 @@ const VisitorPage = () => {
             {visitors.map((visitor, index) => (
               <tr
                 key={visitor.id}
-                className="hover:bg-gradient-to-r from-gray-100 to-gray-200 transition-all duration-300 transform"
+                className="hover:bg-gradient-to-r from-gray-50 to-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-md"
               >
-                <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium">
+                <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium text-center">
                   {index + 1}
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
@@ -94,7 +92,7 @@ const VisitorPage = () => {
                 <td className="border border-gray-200 px-4 py-2 text-gray-700">
                   <a
                     href={`tel:${visitor.phoneNumber}`}
-                    className="text-blue-500 hover:underline hover:text-blue-700"
+                    className="text-blue-500 hover:underline hover:text-blue-700 transition-all duration-300"
                   >
                     {visitor.phoneNumber}
                   </a>
@@ -108,19 +106,19 @@ const VisitorPage = () => {
                 <td className="border border-gray-200 px-4 py-2 text-gray-700">
                   {visitor.appointmentWith}
                 </td>
-                <td className="border border-gray-200 px-4 py-2 flex space-x-2">
+                <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">
                   <IconButton
                     onClick={() => openModal(visitor)}
                     color="success"
                     sx={{
-                      backgroundColor: "#48bb78",
+                      backgroundColor: "#3B82F6",
                       color: "white",
                       borderRadius: "8px",
                       padding: "8px",
                       boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                       transition: "transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
                       "&:hover": {
-                        backgroundColor: "#3a9c63",
+                        backgroundColor: "#3B82F6",
                         transform: "scale(1.05)",
                         boxShadow: "0 6px 8px rgba(0, 0, 0, 0.15)",
                       },
@@ -151,10 +149,7 @@ const VisitorPage = () => {
               </tr>
             ))}
           </tbody>
-
-
         </table>
-
       </div>
 
       {isModalOpen && (
@@ -166,7 +161,18 @@ const VisitorPage = () => {
         />
       )}
 
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };
