@@ -66,6 +66,10 @@ Start the Development Server
 Open in Your Browser
 - Visit http://localhost:5173 to see the app in action!
 ---
+<<<<<<< HEAD
+=======
+### Folder Structure 📂
+>>>>>>> b57066525daaa506f15a7d5f871d509b656c3bed
 
 ###Folder Structure 📂
 ```
