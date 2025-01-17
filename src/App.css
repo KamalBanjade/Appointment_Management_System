@@ -1,19 +1,20 @@
-.container-expanded {
-  margin-left: 250px; /* Adjust based on your menu width */
-  transition: margin-left 0.3s ease-in-out;
+.gradient-border {
+  border-image: linear-gradient(90deg, #3B82F6, #10B981, #8B5CF6);
+  border-image-slice: 1;
+}
+@keyframes gradientAnimation {
+  0% {
+    border-image-source: linear-gradient(90deg, #3B82F6, #10B981, #8B5CF6);
+  }
+  50% {
+    border-image-source: linear-gradient(90deg, #8B5CF6, #3B82F6, #10B981);
+  }
+  100% {
+    border-image-source: linear-gradient(90deg, #10B981, #8B5CF6, #3B82F6);
+  }
 }
 
-.container-collapsed {
-  margin-left: 50px; /* Shrinked layout */
-  transition: margin-left 0.3s ease-in-out;
-}
-
-.card-expanded {
-  width: 300px; /* Full width */
-  transition: width 0.3s ease-in-out;
-}
-
-.card-collapsed {
-  width: 150px; /* Shrinked width */
-  transition: width 0.3s ease-in-out;
+.gradient-border {
+  border-image-slice: 1;
+  animation: gradientAnimation 5s ease infinite;
 }

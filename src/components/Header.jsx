@@ -3,7 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleEmployeePanel } from "../Redux/EmployeeSlice";
-
+import '../App.css'
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,12 +17,14 @@ const Header = () => {
 
   // Determine the border color based on the current route
   const getBorderColor = () => {
-    if (location.pathname === "/visitors") {
-      return "border-blue-600";
+    if (location.pathname === "/") {
+      return "gradient-border"; // Multicolored gradient for home page
+    } else if (location.pathname === "/visitors") {
+      return "border-blue-600"; // Blue for visitors page
     } else if (location.pathname === "/appointments") {
-      return "border-green-600";
+      return "border-green-600"; // Green for appointments page
     } else if (location.pathname === "/employees") {
-      return "border-purple-600";
+      return "border-purple-600"; // Purple for employees page
     } else {
       return "border-green-600"; // Default color
     }
