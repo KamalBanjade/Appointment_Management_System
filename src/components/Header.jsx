@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleEmployeePanel } from "../Redux/EmployeeSlice";
 import '../App.css'
@@ -87,11 +87,23 @@ const Header = () => {
             </li>
           </ul>
 
+          {/* Custom Hamburger Menu */}
           <button
             onClick={toggleMenu}
-            className="text-gray-700 hover:text-green-600 transition-all duration-300"
+            className="flex flex-col space-y-1.5 p-2 focus:outline-none"
           >
-            {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+            {menuOpen ? (
+              <FaTimes size={24} />
+            ) : (
+              <>
+                {/* Blue Line */}
+                <div className="w-6 h-0.5 bg-blue-600"></div>
+                {/* Green Line */}
+                <div className="w-5 h-0.5 bg-green-600"></div>
+                {/* Purple Line */}
+                <div className="w-6 h-0.5 bg-purple-600"></div>
+              </>
+            )}
           </button>
         </div>
       </div>

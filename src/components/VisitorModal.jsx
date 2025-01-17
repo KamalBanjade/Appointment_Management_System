@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Modal, TextField, Button, MenuItem, Box, IconButton, Grid, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { Modal, TextField, Button, MenuItem, Box, IconButton, Grid, Typography, CircularProgress } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
-const VisitorModal = ({
-  isOpen,
-  onClose,
-  onSave,
-  visitorToEdit,
-  employee,
-}) => {
+const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
   const dispatch = useDispatch();
   const defaultVisitorState = {
     name: "",
@@ -23,6 +17,7 @@ const VisitorModal = ({
 
   const [visitor, setVisitor] = useState(defaultVisitorState);
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const departments = ["IT", "Finance", "HR", "Admin", "Sales"];
 
   useEffect(() => {
@@ -63,172 +58,164 @@ const VisitorModal = ({
     setErrors({});
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (validateFields()) {
+      setIsSubmitting(true);
       const updatedVisitor = visitorToEdit
         ? { ...visitor }
-        : { ...visitor, id: new Date().getTime() }; // Assign a unique ID for new visitors
+        : { ...visitor, id: new Date().getTime() };
 
-      onSave(updatedVisitor); // Call the onSave prop
-      onClose(); // Close the modal
+      // Simulate API call delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      onSave(updatedVisitor);
+      setIsSubmitting(false);
+      onClose();
     }
   };
 
   return (
     <Modal open={isOpen} onClose={onClose}>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3 }}
-        style={{
-          backgroundColor: "white",
-          borderRadius: "16px",
-          boxShadow: "0 8px 24px rgba(0, 0, 0, 0.2)",
-          padding: "24px",
-          maxWidth: "600px",
-          margin: "auto",
-          marginTop: "10vh",
-          outline: "none",
-          position: "relative",
-          background: "linear-gradient(145deg, #ffffff, #f9f9f9)",
-        }}
-      >
-        {/* Close Icon */}
-        <IconButton
-          onClick={onClose}
-          aria-label="Close modal"
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3 }}
           style={{
-            position: "absolute",
-            top: "12px",
-            right: "12px",
-            backgroundColor: "rgba(0, 0, 0, 0.05)",
-            transition: "transform 0.2s ease-in-out",
-          }}
-          size="small"
-          sx={{
-            "&:hover": {
-              backgroundColor: "rgba(0, 0, 0, 0.1)",
-              transform: "scale(1.1)",
-            },
+            backgroundColor: "white",
+            borderRadius: "16px",
+            boxShadow: "0 8px 24px rgba(0, 0, 0, 0.2)",
+            padding: "24px",
+            maxWidth: "600px",
+            margin: "auto",
+            marginTop: "10vh",
+            outline: "none",
+            position: "relative",
+            background: "linear-gradient(145deg, #ffffff, #f9f9f9)",
           }}
         >
-          <FaTimes />
-        </IconButton>
-
-        <Typography
-          variant="h5"
-          component="h2"
-          style={{
-            textAlign: "center",
-            fontWeight: "bold",
-            marginBottom: "20px",
-            borderBottom: "2px solid #dee2e6",
-            paddingBottom: "8px",
-            color: "#3B82F6",
-          }}
-        >
-          {visitorToEdit ? "Edit Visitor" : "Add Visitor"}
-        </Typography>
-
-        {/* Form */}
-        <Box component="form" className="space-y-5">
-          <TextField
-            label="Name"
-            name="name"
-            value={visitor.name}
-            onChange={handleChange}
-            fullWidth
-            required
-            variant="outlined"
-            error={!!errors.name}
-            helperText={errors.name}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "&:hover fieldset": {
-                  borderColor: "#3B82F6",
-                },
-              },
+          {/* Close Icon */}
+          <IconButton
+            onClick={onClose}
+            aria-label="Close modal"
+            style={{
+              position: "absolute",
+              top: "12px",
+              right: "12px",
+              backgroundColor: "rgba(0, 0, 0, 0.05)",
+              transition: "transform 0.2s ease-in-out",
             }}
-          />
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Email"
-                name="email"
-                value={visitor.email}
-                onChange={handleChange}
-                fullWidth
-                required
-                variant="outlined"
-                error={!!errors.email}
-                helperText={errors.email}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&:hover fieldset": {
-                      borderColor: "#3B82F6",
-                    },
-                  },
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Phone Number"
-                name="phoneNumber"
-                value={visitor.phoneNumber}
-                onChange={handleChange}
-                fullWidth
-                required
-                variant="outlined"
-                error={!!errors.phoneNumber}
-                helperText={errors.phoneNumber}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&:hover fieldset": {
-                      borderColor: "#3B82F6",
-                    },
-                  },
-                }}
-              />
-            </Grid>
-          </Grid>
-          <TextField
-            label="Reason for Visit"
-            name="visitReason"
-            value={visitor.visitReason}
-            onChange={handleChange}
-            fullWidth
-            required
-            multiline
-            rows={3}
-            variant="outlined"
-            error={!!errors.visitReason}
-            helperText={errors.visitReason}
+            size="small"
             sx={{
-              "& .MuiOutlinedInput-root": {
-                "&:hover fieldset": {
-                  borderColor: "#3B82F6",
-                },
-              },
-            }}
-          />
-
-          {/* Date Input with Clickable Area */}
-          <Box
-            onClick={() => document.getElementById("visitDate")}
-            sx={{
-              cursor: "pointer",
               "&:hover": {
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "#3B82F6",
-                  },
-                },
+                backgroundColor: "rgba(0, 0, 0, 0.1)",
+                transform: "scale(1.1)",
               },
             }}
           >
+            <FaTimes />
+          </IconButton>
+
+          <Typography
+            variant="h5"
+            component="h2"
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              marginBottom: "20px",
+              borderBottom: "2px solid #dee2e6",
+              paddingBottom: "8px",
+              color: "#3B82F6",
+            }}
+          >
+            {visitorToEdit ? "Edit Visitor" : "Add Visitor"}
+          </Typography>
+
+          {/* Form */}
+          <Box component="form" className="space-y-5">
+            <TextField
+              label="Name"
+              name="name"
+              value={visitor.name}
+              onChange={handleChange}
+              fullWidth
+              required
+              variant="outlined"
+              error={!!errors.name}
+              helperText={errors.name}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#3B82F6",
+                  },
+                },
+              }}
+            />
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Email"
+                  name="email"
+                  value={visitor.email}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  variant="outlined"
+                  error={!!errors.email}
+                  helperText={errors.email}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3B82F6",
+                      },
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Phone Number"
+                  name="phoneNumber"
+                  value={visitor.phoneNumber}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  variant="outlined"
+                  error={!!errors.phoneNumber}
+                  helperText={errors.phoneNumber}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3B82F6",
+                      },
+                    },
+                  }}
+                />
+              </Grid>
+            </Grid>
+            <TextField
+              label="Reason for Visit"
+              name="visitReason"
+              value={visitor.visitReason}
+              onChange={handleChange}
+              fullWidth
+              required
+              multiline
+              rows={3}
+              variant="outlined"
+              error={!!errors.visitReason}
+              helperText={errors.visitReason}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#3B82F6",
+                  },
+                },
+              }}
+            />
+
+            {/* Date Input */}
             <TextField
               id="visitDate"
               label="Date"
@@ -252,82 +239,83 @@ const VisitorModal = ({
                 },
               }}
             />
+
+            <TextField
+              select
+              label="Appointment With"
+              name="appointmentWith"
+              value={visitor.appointmentWith}
+              onChange={handleChange}
+              fullWidth
+              required
+              variant="outlined"
+              error={!!errors.appointmentWith}
+              helperText={errors.appointmentWith || "Select a department for the appointment."}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#3B82F6",
+                  },
+                },
+              }}
+            >
+              <MenuItem value="">
+                <em>Select a Department</em>
+              </MenuItem>
+              {departments.map((dept) => (
+                <MenuItem key={dept} value={dept}>
+                  {dept}
+                </MenuItem>
+              ))}
+            </TextField>
           </Box>
 
-          <TextField
-            select
-            label="Appointment With"
-            name="appointmentWith"
-            value={visitor.appointmentWith}
-            onChange={handleChange}
-            fullWidth
-            required
-            variant="outlined"
-            error={!!errors.appointmentWith}
-            helperText={errors.appointmentWith || "Select a department for the appointment."}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "&:hover fieldset": {
-                  borderColor: "#3B82F6",
+          {/* Action Buttons */}
+          <div className="mt-6 flex justify-between">
+            <Button
+              onClick={handleClear}
+              variant="outlined"
+              color="warning"
+              size="large"
+              style={{
+                borderRadius: "8px",
+                padding: "8px 16px",
+                background: "linear-gradient(145deg, #ff9800, #fb8c00)",
+                color: "white",
+                transition: "transform 0.2s ease-in-out",
+              }}
+              sx={{
+                "&:hover": {
+                  transform: "scale(1.05)",
                 },
-              },
-            }}
-          >
-            <MenuItem value="">
-              <em>Select a Department</em>
-            </MenuItem>
-            {departments.map((dept) => (
-              <MenuItem key={dept} value={dept}>
-                {dept}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>
-
-        {/* Action Buttons */}
-        <div className="mt-6 flex justify-between">
-          <Button
-            onClick={handleClear}
-            variant="outlined"
-            color="warning"
-            size="large"
-            style={{
-              borderRadius: "8px",
-              padding: "8px 16px",
-              background: "linear-gradient(145deg, #ff9800, #fb8c00)",
-              color: "white",
-              transition: "transform 0.2s ease-in-out",
-            }}
-            sx={{
-              "&:hover": {
-                transform: "scale(1.05)",
-              },
-            }}
-          >
-            Clear
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            color="primary"
-            size="large"
-            style={{
-              borderRadius: "8px",
-              padding: "8px 16px",
-              background: "linear-gradient(145deg, #3B82F6, #2563eb)",
-              color: "white",
-              transition: "transform 0.2s ease-in-out",
-            }}
-            sx={{
-              "&:hover": {
-                transform: "scale(1.05)",
-              },
-            }}
-          >
-            Save
-          </Button>
-        </div>
-      </motion.div>
+              }}
+            >
+              Clear
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              color="primary"
+              size="large"
+              disabled={isSubmitting}
+              style={{
+                borderRadius: "8px",
+                padding: "8px 16px",
+                background: "linear-gradient(145deg, #3B82F6, #2563eb)",
+                color: "white",
+                transition: "transform 0.2s ease-in-out",
+              }}
+              sx={{
+                "&:hover": {
+                  transform: "scale(1.05)",
+                },
+              }}
+            >
+              {isSubmitting ? <CircularProgress size={24} color="inherit" /> : "Save"}
+            </Button>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </Modal>
   );
 };
