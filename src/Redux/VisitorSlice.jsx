@@ -10,22 +10,36 @@ const visitorSlice = createSlice({
   initialState,
   reducers: {
     addVisitor: (state, action) => {
-      state.list.push(action.payload);
-      state.totalSN = state.list.length; // Update total count
-      state.latestVisitorName = action.payload.name; // Store the latest visitor's name
+      const visitorWithTimestamp = { ...action.payload, timestamp: Date.now() };
+      state.list.push(visitorWithTimestamp);
+      state.totalSN = state.list.length;
+      state.latestVisitorName = visitorWithTimestamp.name;
     },
     editVisitor: (state, action) => {
       const index = state.list.findIndex((v) => v.id === action.payload.id);
       if (index !== -1) {
-        state.list[index] = action.payload;
+        const updatedVisitor = { ...action.payload, timestamp: Date.now() };
+        state.list[index] = updatedVisitor;
+        // Find the visitor with the latest timestamp
+        const latestVisitor = state.list.reduce((latest, current) =>
+          current.timestamp > latest.timestamp ? current : latest
+        );
+        state.latestVisitorName = latestVisitor.name;
       }
     },
     deleteVisitor: (state, action) => {
       state.list = state.list.filter((v) => v.id !== action.payload);
-      state.totalSN = state.list.length; // Update total count
+      state.totalSN = state.list.length;
+      if (state.list.length > 0) {
+        const latestVisitor = state.list.reduce((latest, current) =>
+          current.timestamp > latest.timestamp ? current : latest
+        );
+        state.latestVisitorName = latestVisitor.name;
+      } else {
+        state.latestVisitorName = "";
+      }
     },
   },
 });
-
 export const { addVisitor, editVisitor, deleteVisitor } = visitorSlice.actions;
 export default visitorSlice.reducer;

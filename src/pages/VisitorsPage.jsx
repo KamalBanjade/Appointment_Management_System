@@ -64,7 +64,7 @@ const VisitorPage = () => {
           {visitors.map((visitor, index) => (
             <tr
               key={visitor.id}
-              className="hover:bg-gradient-to-r from-gray-50 to-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-md"
+              className="hover:bg-gradient-to-r from-gray-50 to-gray-100 transition-all duration-300 transform hover:scale-100 hover:shadow-lg"
             >
               <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
                 {index + 1}
