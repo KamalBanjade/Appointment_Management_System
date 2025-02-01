@@ -8,6 +8,7 @@ import { addAppointment } from "../Redux/AppointmentSlice";
 import { addVisitor } from "../Redux/VisitorSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { toastConfig } from '../../src/toastConfig'; 
 
 const EmployeePanel = () => {
   const [isVisitorModalOpen, setVisitorModalOpen] = useState(false);
@@ -48,7 +49,7 @@ const EmployeePanel = () => {
 
   const handleSaveAppointment = (appointment) => {
     if (!selectedEmployee || !selectedEmployee.id) {
-      toast.error("No employee selected for the appointment.");
+      toast.error("No employee selected for the appointment." , toastConfig);
       return;
     }
 
@@ -60,17 +61,13 @@ const EmployeePanel = () => {
     };
     dispatch(addAppointment(appointmentWithEmployee)); // Dispatch Redux action
 
-    toast.success(`Appointment added for ${selectedEmployee.name}!`, {
-      position: "top-right",
-      autoClose: 3000,
-    });
-
+    toast.success(`Appointment added for ${selectedEmployee.name}!`,toastConfig);
     closeModals();
   };
 
   const handleSaveVisitor = (visitor) => {
     if (!selectedEmployee || !selectedEmployee.id) {
-      toast.error("No employee selected for the visitor.");
+      toast.error("No employee selected for the visitor." , toastConfig);
       return;
     }
 
@@ -82,10 +79,7 @@ const EmployeePanel = () => {
     };
     dispatch(addVisitor(visitorWithEmployee)); // Dispatch Redux action
 
-    toast.success(`Visitor added for ${selectedEmployee.name}!`, {
-      position: "top-right",
-      autoClose: 3000,
-    });
+    toast.success(`Visitor added for ${selectedEmployee.name}!`, toastConfig);
 
     closeModals();
   };
@@ -93,7 +87,14 @@ const EmployeePanel = () => {
   if (!isPanelOpen) return null;
 
   return (
-    <div className="fixed top-16 right-0 w-[30.5%] h-[calc(100vh-4rem)] ml-3 mt-6 bg-gray-100 shadow-lg p-2 overflow-y-auto z-50 transition-transform transform duration-300 ease-in-out rounded-lg">
+    <div
+      className={`fixed top-16 right-0 h-[calc(100vh-4rem)] ml-3 mt-6 bg-gray-100 shadow-lg p-2 overflow-y-auto z-50 transition-transform transform duration-300 ease-in-out rounded-lg
+        ${
+          // Full width on small screens, fixed width on larger screens
+          window.innerWidth < 768 ? "w-full" : "w-[30.5%]"
+        }
+      `}
+    >
       <h2 className="text-lg font-bold mb-4 text-gray-800">Employee List:</h2>
 
       <div className="mb-6">
