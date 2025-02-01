@@ -8,7 +8,8 @@ import { addAppointment } from "../Redux/AppointmentSlice";
 import { addVisitor } from "../Redux/VisitorSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { toastConfig } from '../../src/toastConfig'; 
+import { toastConfig } from '../../src/toastConfig';
+import { FaUserCircle } from "react-icons/fa";
 
 const EmployeePanel = () => {
   const [isVisitorModalOpen, setVisitorModalOpen] = useState(false);
@@ -49,7 +50,7 @@ const EmployeePanel = () => {
 
   const handleSaveAppointment = (appointment) => {
     if (!selectedEmployee || !selectedEmployee.id) {
-      toast.error("No employee selected for the appointment." , toastConfig);
+      toast.error("No employee selected for the appointment.", toastConfig);
       return;
     }
 
@@ -61,13 +62,13 @@ const EmployeePanel = () => {
     };
     dispatch(addAppointment(appointmentWithEmployee)); // Dispatch Redux action
 
-    toast.success(`Appointment added for ${selectedEmployee.name}!`,toastConfig);
+    toast.success(`Appointment added for ${selectedEmployee.name}!`, toastConfig);
     closeModals();
   };
 
   const handleSaveVisitor = (visitor) => {
     if (!selectedEmployee || !selectedEmployee.id) {
-      toast.error("No employee selected for the visitor." , toastConfig);
+      toast.error("No employee selected for the visitor.", toastConfig);
       return;
     }
 
@@ -85,13 +86,19 @@ const EmployeePanel = () => {
   };
 
   if (!isPanelOpen) return null;
+  const FallbackAvatar = () => (
+    <div className="h-16 w-16 flex items-center justify-center bg-gray-200 rounded-full border-2 border-gray-300 hover:border-blue-500 transition-all duration-300">
+      <FaUserCircle className="text-7xl text-gray-500" />
+    </div>
+  );
+
 
   return (
     <div
       className={`fixed top-16 right-0 h-[calc(100vh-4rem)] ml-3 mt-6 bg-gray-100 shadow-lg p-2 overflow-y-auto z-50 transition-transform transform duration-300 ease-in-out rounded-lg
         ${
-          // Full width on small screens, fixed width on larger screens
-          window.innerWidth < 768 ? "w-full" : "w-[30.5%]"
+        // Full width on small screens, fixed width on larger screens
+        window.innerWidth < 768 ? "w-full" : "w-[30.5%]"
         }
       `}
     >
@@ -147,13 +154,17 @@ const EmployeePanel = () => {
               {/* Employee Image */}
               <div className="flex-shrink-0">
                 <div className="flex flex-col items-center space-y-2">
-                  <img
-                    src={employee.image instanceof File
-                      ? URL.createObjectURL(employee.image)
-                      : employee.image || "/default-image.png"}
-                    alt={employee.name || "Employee"}
-                    className="h-16 w-16 object-cover rounded-full border-2 border-gray-300 hover:border-blue-500 transition-all duration-300"
-                  />
+                  {employee.image ? (
+                    <img
+                      src={employee.image instanceof File
+                        ? URL.createObjectURL(employee.image)
+                        : employee.image}
+                      alt={employee.name || "Employee"}
+                      className="h-16 w-16 object-cover rounded-full border-2 border-gray-300 hover:border-blue-500 transition-all duration-300"
+                    />
+                  ) : (
+                    <FallbackAvatar name={employee.name} />
+                  )}
 
                   {/* Action Buttons */}
                   <div className="flex space-x-2">
