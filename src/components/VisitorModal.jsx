@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
   const dispatch = useDispatch();
   const defaultVisitorState = {
-    name: "",
+    visitorName: "",
     email: "",
     phoneNumber: "",
     visitReason: "",
@@ -33,7 +33,7 @@ const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
 
   const validateFields = () => {
     const newErrors = {};
-    if (!visitor.name) newErrors.name = "Name is required.";
+    if (!visitor.visitorName) newErrors.visitorName = "Name is required.";
     if (!visitor.email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(visitor.email)) {
       newErrors.email = "Valid email is required.";
     }
@@ -138,15 +138,15 @@ const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
             {/* Form */}
             <Box component="form" className="space-y-5">
               <TextField
-                label="Name"
-                name="name"
-                value={visitor.name}
+                label="Visitor's Name"
+                name="visitorName"
+                value={visitor.visitorName}
                 onChange={handleChange}
                 fullWidth
                 required
                 variant="outlined"
-                error={!!errors.name}
-                helperText={errors.name}
+                error={!!errors.visitorName}
+                helperText={errors.visitorName}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     "&:hover fieldset": {

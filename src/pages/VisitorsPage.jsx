@@ -73,7 +73,7 @@ const VisitorPage = () => {
                   {index + 1}
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
-                  {visitor.name}
+                  {visitor.visitorName}
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-700">
                   <a
@@ -89,7 +89,7 @@ const VisitorPage = () => {
                 <td className="border border-gray-200 px-4 py-2 text-gray-700">
                   {formattedDate(visitor.visitDate)}
                 </td>
-                <td className="border border-gray-200 px-4 py-2 font-medium text-gray-700">
+                <td className="border border-gray-200 px-4 py-2 text-center font-medium text-gray-700">
                   {visitor.appointmentWith}
                 </td>
                 <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">

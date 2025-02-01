@@ -13,7 +13,7 @@ const visitorSlice = createSlice({
       const visitorWithTimestamp = { ...action.payload, timestamp: Date.now() };
       state.list.push(visitorWithTimestamp);
       state.totalSN = state.list.length;
-      state.latestVisitorName = visitorWithTimestamp.name;
+      state.latestVisitorName = visitorWithTimestamp.visitorName;
     },
     editVisitor: (state, action) => {
       const index = state.list.findIndex((v) => v.id === action.payload.id);
@@ -24,7 +24,7 @@ const visitorSlice = createSlice({
         const latestVisitor = state.list.reduce((latest, current) =>
           current.timestamp > latest.timestamp ? current : latest
         );
-        state.latestVisitorName = latestVisitor.name;
+        state.latestVisitorName = latestVisitor.visitorName;
       }
     },
     deleteVisitor: (state, action) => {
@@ -34,7 +34,7 @@ const visitorSlice = createSlice({
         const latestVisitor = state.list.reduce((latest, current) =>
           current.timestamp > latest.timestamp ? current : latest
         );
-        state.latestVisitorName = latestVisitor.name;
+        state.latestVisitorName = latestVisitor.visitorName;
       } else {
         state.latestVisitorName = "";
       }

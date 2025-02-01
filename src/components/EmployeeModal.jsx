@@ -8,6 +8,7 @@ import {
   IconButton,
   Typography,
   CircularProgress,
+  Grid,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
@@ -163,7 +164,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
               marginBottom="16px"
             >
               <TextField
-                label="Name"
+                label="Employee's Name"
                 name="name"
                 value={employee.name}
                 onChange={handleChange}
@@ -180,6 +181,8 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
                   },
                 }}
               />
+              <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
               <TextField
                 label="Address"
                 name="address"
@@ -195,6 +198,8 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
                   },
                 }}
               />
+              </Grid>
+              <Grid item xs={12} sm={6}>
               <TextField
                 label="Mobile Number"
                 name="mobileNumber"
@@ -214,8 +219,10 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
                   },
                 }}
               />
+              </Grid>
+              </Grid>
               <TextField
-                label="Email"
+                label="Employee's Email"
                 name="email"
                 value={employee.email}
                 onChange={handleChange}
@@ -269,6 +276,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
               onChange={handleChange}
               fullWidth
               variant="outlined"
+              disabled
               sx={{
                 "& .MuiOutlinedInput-root": {
                   "&:hover fieldset": {
