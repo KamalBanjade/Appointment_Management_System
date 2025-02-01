@@ -6,7 +6,6 @@ import { toggleEmployeePanel } from "../Redux/EmployeeSlice";
 import AddIcon from "@mui/icons-material/Add";
 import { Menu, MenuItem, Button } from "@mui/material";
 import "../App.css";
-
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // For the dropdown menu
@@ -14,12 +13,6 @@ const Header = () => {
   const navigate = useNavigate();
   const isPanelOpen = useSelector((state) => state.employees.isEmployeePanelOpen);
   const location = useLocation();
-
-  const toggleMenu = () => {
-    dispatch(toggleEmployeePanel());
-  };
-
-  // Determine the border color based on the current route
   const getBorderColor = () => {
     if (location.pathname === "/") {
       return "gradient-border"; // Multicolored gradient for home page
@@ -32,6 +25,11 @@ const Header = () => {
     } else {
       return "border-green-600"; // Default color
     }
+  };
+
+  const toggleMenu = () => {
+    dispatch(toggleEmployeePanel());
+    setMenuOpen(!menuOpen); // Toggle the local state for the hamburger menu
   };
 
   // Handle dropdown menu open/close
@@ -132,24 +130,24 @@ const Header = () => {
             </Menu>
           </div>
 
-          {/* Custom Hamburger Menu */}
           <button
             onClick={toggleMenu}
-            className="flex flex-col space-y-1.5 p-2 focus:outline-none"
+            className="flex flex-col items-center justify-center p-3 focus:outline-none transition-transform duration-300 hover:scale-110 mt-1"
           >
             {menuOpen ? (
-              <FaTimes size={24} />
+              <div className="relative w-6 h-6 transition-transform duration-300 ease-in-out rotate-180">
+                <div className="absolute w-6 h-0.5 bg-gray-700 transform rotate-45 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md"></div>
+                <div className="absolute w-6 h-0.5 bg-gray-700 transform -rotate-45 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md"></div>
+              </div>
             ) : (
-              <>
-                {/* Blue Line */}
-                <div className="w-6 h-0.5 bg-blue-600"></div>
-                {/* Green Line */}
-                <div className="w-5 h-0.5 bg-green-600"></div>
-                {/* Purple Line */}
-                <div className="w-6 h-0.5 bg-purple-600"></div>
-              </>
+              <div className="flex flex-col space-y-1.5 w-6 transition-all duration-300 ease-in-out">
+                <div className="w-6 h-0.5 bg-gray-700 rounded-md transition-transform duration-300"></div>
+                <div className="w-5 h-0.5 bg-gray-700 rounded-md transition-transform duration-300"></div>
+                <div className="w-6 h-0.5 bg-gray-700 rounded-md transition-transform duration-300"></div>
+              </div>
             )}
           </button>
+
         </div>
       </div>
     </nav>
