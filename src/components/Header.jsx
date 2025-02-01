@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleEmployeePanel } from "../Redux/EmployeeSlice";
-import '../App.css'
+import AddIcon from "@mui/icons-material/Add";
+import { Menu, MenuItem, Button } from "@mui/material";
+import "../App.css";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null); // For the dropdown menu
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isPanelOpen = useSelector((state) => state.employees.isEmployeePanelOpen);
   const location = useLocation();
 
@@ -28,6 +32,20 @@ const Header = () => {
     } else {
       return "border-green-600"; // Default color
     }
+  };
+
+  // Handle dropdown menu open/close
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenuItemClick = (path) => {
+    navigate(path); // Use navigate for navigation
+    handleMenuClose();
   };
 
   return (
@@ -86,6 +104,33 @@ const Header = () => {
               </NavLink>
             </li>
           </ul>
+
+          {/* Add Button (Visible Only on Small Screens) */}
+          <div className="sm:hidden">
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<AddIcon />}
+              onClick={handleMenuOpen}
+            >
+              Add...
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+            >
+              <MenuItem onClick={() => handleMenuItemClick("/visitors")}>
+                Visitor
+              </MenuItem>
+              <MenuItem onClick={() => handleMenuItemClick("/appointments")}>
+                Appointment
+              </MenuItem>
+              <MenuItem onClick={() => handleMenuItemClick("/employees")}>
+                Employee
+              </MenuItem>
+            </Menu>
+          </div>
 
           {/* Custom Hamburger Menu */}
           <button

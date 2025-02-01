@@ -112,8 +112,8 @@ const HomePage = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg rounded-lg p-6 mb-6 text-center text-white">
-          <h1 className="text-4xl font-bold">{getGreeting()}</h1>
-          <p className="text-lg mt-2">
+          <h1 className="sm:text-xl lg:text-3xl font-bold">{getGreeting()}</h1>
+          <p className="text-lg lg:text-2xl mt-2">
             Welcome back! Here's a quick summary of your day.
           </p>
         </div>
@@ -132,8 +132,8 @@ const HomePage = () => {
                 <PeopleAltIcon fontSize="large" className="text-blue-500" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-700">Visitors Today</h3>
-                <p className="text-3xl font-semibold text-blue-500 mt-2">
+                <h3 className="sm:text-md lg:text-lg font-bold text-gray-700">Visitors Today</h3>
+                <p className="sm:text-lg lg:text-2xl font-semibold text-blue-500 mt-2">
                   {visitorsToday}
                 </p>
               </div>
@@ -152,10 +152,10 @@ const HomePage = () => {
                 <EventNoteIcon fontSize="large" className="text-green-500" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-700">
+                <h3 className="sm:text-md lg:text-lg font-bold text-gray-700">
                   Upcoming Appointments
                 </h3>
-                <p className="text-3xl font-semibold text-green-500 mt-2">
+                <p className="sm:text-lg lg:text-2xl font-semibold text-green-500 mt-2">
                   {appointments.length}
                 </p>
               </div>
@@ -174,10 +174,10 @@ const HomePage = () => {
                 <GroupIcon fontSize="large" className="text-purple-500" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-700">
+                <h3 className="sm:text-md lg:text-lg font-bold text-gray-700">
                   Active Employees
                 </h3>
-                <p className="text-3xl font-semibold text-purple-500 mt-2">
+                <p className="sm:text-lg lg:text-2xl font-semibold text-purple-500 mt-2">
                   {activeEmployees}
                 </p>
               </div>
@@ -195,7 +195,7 @@ const HomePage = () => {
       >
         <div className="flex items-center space-x-2 mb-4">
           <ActivityFeedIcon className="text-gray-700" fontSize="large" />
-          <h2 className="text-2xl font-bold text-gray-700">Recent Activities</h2>
+          <h2 className="sm:text-lg lg:text-2xl font-bold text-gray-700">Recent Activities</h2>
         </div>
         {filteredActivities.length > 0 ? (
           <ul className="list-disc pl-5 space-y-2">
