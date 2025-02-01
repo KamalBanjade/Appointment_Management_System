@@ -43,13 +43,13 @@ const EmployeePage = () => {
 
   return (
     <PageLayout
-      title="Employee's List"
+    title={<span className="text-sm lg:text-lg">Employee's List:</span>}
       onAddClick={openModalForNewEmployee}
       addButtonText="Add Employee"
-      buttonStyle="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-2 rounded-lg shadow-md hover:from-purple-600 hover:to-purple-700 transition-all duration-300"
+      buttonStyle="text-xs lg:text-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-2 rounded-lg shadow-md hover:from-purple-600 hover:to-purple-700 transition-all duration-300"
     >
       <div className="overflow-x-auto">
-        <table className="min-w-full text-sm text-gray-700 rounded-lg overflow-hidden">
+      <table className="min-w-full text-xs lg:text-sm text-gray-700 shadow-lg rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">SN</th>

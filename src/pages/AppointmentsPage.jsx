@@ -9,7 +9,7 @@ import { IconButton, Checkbox } from "@mui/material";
 import { format } from "date-fns";
 import PageLayout from "../utils/PageLayout";
 import { motion, AnimatePresence } from "framer-motion";
-import { toastConfig } from '../../src/toastConfig'; 
+import { toastConfig } from '../../src/toastConfig';
 
 const AppointmentsPage = () => {
   const appointments = useSelector((state) => state.appointments.list);
@@ -53,14 +53,15 @@ const AppointmentsPage = () => {
 
   return (
     <PageLayout
-      title="Appointee's List"
+      title={<span className="text-sm lg:text-lg">Appointee's List:</span>}
       onAddClick={() => openModal()}
       addButtonText="Add Appointment"
-      buttonStyle="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:from-green-600 hover:to-green-700 transition-all duration-300 "
+      buttonStyle="text-xs lg:text-lg bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:from-green-600 hover:to-green-700 transition-all duration-300 "
+
     >
       {/* Responsive Table Container */}
       <div className="overflow-x-auto">
-        <table className="min-w-full text-sm text-gray-700 bg-white rounded-lg shadow-md overflow-hidden">
+        <table className="min-w-full text-xs lg:text-sm text-gray-700 shadow-lg rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">S.N</th>

@@ -44,14 +44,14 @@ const VisitorPage = () => {
 
   return (
     <PageLayout
-      title="Visitor's List:"
+    title={<span className="text-sm lg:text-lg">Visitor's List:</span>}
       onAddClick={() => openModal()}
       addButtonText="Add Visitor"
-      buttonStyle="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
+      buttonStyle="text-xs lg:text-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
     >
       {/* Responsive Table Container */}
       <div className="overflow-x-auto">
-        <table className="min-w-full text-sm text-gray-700 shadow-lg rounded-lg overflow-hidden">
+        <table className="min-w-full text-xs lg:text-sm text-gray-700 shadow-lg rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">SN</th>
