@@ -92,7 +92,7 @@ const VisitorPage = () => {
                 <td className="border border-gray-200 px-4 py-2 text-center font-medium text-gray-700">
                 <span className="inline-block px-3 py-1 text-xs lg:text-sm">{visitor.appointmentWith}</span>
                 </td>
-                <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">
+                <td className="border border-gray-200 px-4 py-4 lg:px-2 lg:py-2 flex justify-center space-x-2">
                 <IconButton
                   onClick={() => openModal(visitor)}
                   color="success"

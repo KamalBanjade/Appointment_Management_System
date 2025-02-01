@@ -86,7 +86,7 @@ const EmployeePage = () => {
                 <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium text-center">
                   {employee.department}
                 </td>
-                <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2 text-center">
+                <td className="border border-gray-200 px-4 py-4 lg:px-2 lg:py-2 flex justify-center space-x-2 text-center">
                   <IconButton
                     onClick={() => handleEditEmployee(employee)}
                     color="success"

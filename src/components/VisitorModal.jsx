@@ -241,6 +241,9 @@ const VisitorModal = ({ isOpen, onClose, onSave, visitorToEdit, employee }) => {
                       borderColor: "#3B82F6",
                     },
                   },
+                  "& input": {
+                    textAlign: "left",
+                  },
                 }}
               />
 
