@@ -4,7 +4,7 @@ import { addAppointment, editAppointment, deleteAppointment } from "../Redux/App
 import AppointmentModal from "../components/AppointmentModal";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Edit as EditIcon, CheckBox as CheckBoxIcon } from "@mui/icons-material";
+import { Edit as EditIcon } from "@mui/icons-material";
 import { IconButton, Checkbox } from "@mui/material";
 import { format } from "date-fns";
 import PageLayout from "../utils/PageLayout";
@@ -51,13 +51,18 @@ const AppointmentsPage = () => {
     return format(new Date(date), "MMM dd, yyyy (HH:mm)");
   };
 
+  // Helper function to get department by employee name
+  const getDepartmentByEmployeeName = (employeeName) => {
+    const employee = employees.find((emp) => emp.name === employeeName);
+    return employee ? employee.department : "N/A";
+  };
+
   return (
     <PageLayout
       title={<span className="text-sm lg:text-lg">Appointee's List:</span>}
       onAddClick={() => openModal()}
       addButtonText="Add Appointment"
       buttonStyle="text-xs lg:text-lg bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:from-green-600 hover:to-green-700 transition-all duration-300 "
-
     >
       {/* Responsive Table Container */}
       <div className="overflow-x-auto">
@@ -65,11 +70,11 @@ const AppointmentsPage = () => {
           <thead>
             <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">S.N</th>
-              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Visitor's Name</th>
+              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Appointee's Name</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Phone Number</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Reason</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Date (Time)</th>
-              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Appointment with</th>
+              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Appointment with (Department)</th>
               <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Actions</th>
             </tr>
           </thead>
@@ -105,7 +110,7 @@ const AppointmentsPage = () => {
                       </div>
                     </td>
                     <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium text-center">
-                      {appointment.visitorName}
+                      {appointment.appointeeName}
                     </td>
                     <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
                       <a
@@ -122,7 +127,7 @@ const AppointmentsPage = () => {
                       {formattedDate(appointment.date)}
                     </td>
                     <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium text-center">
-                      {appointment.appointmentWith}
+                      {appointment.appointmentWith} ({getDepartmentByEmployeeName(appointment.appointmentWith)})
                     </td>
                     <td className="border border-gray-200 px-4 py-2 justify-center space-x-2 text-center">
                       <IconButton

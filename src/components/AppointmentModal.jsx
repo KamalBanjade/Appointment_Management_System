@@ -16,7 +16,7 @@ const AppointmentModal = ({
 }) => {
   const dispatch = useDispatch();
   const defaultAppointmentState = {
-    visitorName: "",
+    appointeeName: "",
     phoneNumber: "",
     reason: "",
     date: "",
@@ -48,7 +48,7 @@ const AppointmentModal = ({
 
   const validateFields = () => {
     const newErrors = {};
-    if (!appointment.visitorName) newErrors.visitorName = "Name is required.";
+    if (!appointment.appointeeName) newErrors.appointeeName = "Name is required.";
     if (!appointment.phoneNumber) newErrors.phoneNumber = "Phone number is required.";
     if (!appointment.reason) newErrors.reason = "Reason is required.";
     if (!appointment.date) newErrors.date = "Date is required.";
@@ -91,7 +91,7 @@ const AppointmentModal = ({
       const formattedTime = formatTime(appointmentDate);
 
       const emailData = {
-        visitor_Name: appointment.visitorName,
+        visitor_Name: appointment.appointeeName,
         recipient_name: appointment.appointmentWith,
         appointment_date: formattedDate,
         appointment_time: formattedTime,
@@ -182,15 +182,15 @@ const AppointmentModal = ({
             {/* Form */}
             <Box component="form" className="space-y-5">
               <TextField
-                label="Visitor Name"
-                name="visitorName"
-                value={appointment.visitorName}
+                label="Appointee's Name"
+                name="appointeeName"
+                value={appointment.appointeeName}
                 onChange={handleChange}
                 fullWidth
                 required
                 variant="outlined"
-                error={!!errors.visitorName}
-                helperText={errors.visitorName}
+                error={!!errors.appointeeName}
+                helperText={errors.appointeeName}
                 className="bg-white rounded-lg"
                 sx={{
                   "& .MuiOutlinedInput-root": {
