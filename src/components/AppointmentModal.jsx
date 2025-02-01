@@ -71,7 +71,7 @@ const AppointmentModal = ({
   const handleSubmit = async () => {
     if (!validateFields()) return;
 
-    setIsSubmitting(true); // Set submitting state to true
+    setIsSubmitting(true);
 
     try {
       const selectedEmployee = employees.find(
@@ -80,7 +80,7 @@ const AppointmentModal = ({
 
       if (!selectedEmployee || !selectedEmployee.email) {
         alert("Email not found for the selected employee.");
-        setIsSubmitting(false); // Reset submitting state
+        setIsSubmitting(false);
         return;
       }
 
@@ -105,10 +105,8 @@ const AppointmentModal = ({
         id: appointment.id || Date.now().toString(),
       };
 
-      // Use `onSave` for Redux action dispatching
       onSave(appointmentData);
 
-      // Send email
       await emailjs.send("service_ddikcul", "template_odr0a8c", emailData, "Li6wdbLmAvMDclI_9");
       console.log("Email sent successfully!");
       onClose();
@@ -116,14 +114,15 @@ const AppointmentModal = ({
       console.error("Failed to send email:", error);
       alert("Failed to send the email. Please try again.");
     } finally {
-      setIsSubmitting(false); // Reset submitting state
+      setIsSubmitting(false);
     }
   };
 
   return (
     <Modal open={isOpen} onClose={onClose}>
-      <AnimatePresence>
-        <motion.div
+      <div>
+        <AnimatePresence>
+          <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
@@ -140,209 +139,212 @@ const AppointmentModal = ({
             position: "relative",
             background: "linear-gradient(145deg, #ffffff, #f9f9f9)",
           }}
-        >
-          {/* Close Icon */}
-          <IconButton
-            onClick={onClose}
-            aria-label="Close modal"
-            style={{
-              position: "absolute",
-              top: "16px",
-              right: "16px",
-              backgroundColor: "rgba(0, 0, 0, 0.05)",
-              transition: "transform 0.2s ease-in-out",
-            }}
-            size="small"
-            sx={{
-              "&:hover": {
-                backgroundColor: "rgba(0, 0, 0, 0.1)",
-                transform: "scale(1.1)",
-              },
-            }}
+           className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[600px] overflow-y-auto max-h-[90vh]"
           >
-            <FaTimes />
-          </IconButton>
-
-          {/* Title */}
-          <h2
-            style={{
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-              textAlign: "center",
-              color: "#16A34A",
-              marginBottom: "20px",
-              borderBottom: "2px solid #dee2e6",
-              paddingBottom: "8px",
-            }}
-          >
-            {appointmentToEdit ? "Edit Appointment" : "Add Appointment"}
-          </h2>
-
-          {/* Form */}
-          <Box component="form" className="space-y-5">
-            <TextField
-              label="Visitor Name"
-              name="visitorName"
-              value={appointment.visitorName}
-              onChange={handleChange}
-              fullWidth
-              required
-              variant="outlined"
-              error={!!errors.visitorName}
-              helperText={errors.visitorName}
-              style={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "&:hover fieldset": {
-                    borderColor: "#16A34A",
-                  },
-                },
-              }}
-            />
-            <TextField
-              label="Phone Number"
-              name="phoneNumber"
-              value={appointment.phoneNumber}
-              onChange={handleChange}
-              fullWidth
-              required
-              type="tel"
-              variant="outlined"
-              error={!!errors.phoneNumber}
-              helperText={errors.phoneNumber}
-              style={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "&:hover fieldset": {
-                    borderColor: "#16A34A",
-                  },
-                },
-              }}
-            />
-            <TextField
-              label="Reason"
-              name="reason"
-              value={appointment.reason}
-              onChange={handleChange}
-              fullWidth
-              required
-              multiline
-              rows={3}
-              variant="outlined"
-              error={!!errors.reason}
-              helperText={errors.reason}
-              style={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "&:hover fieldset": {
-                    borderColor: "#16A34A",
-                  },
-                },
-              }}
-            />
-            <TextField
-              label="Date"
-              name="date"
-              type="datetime-local"
-              value={appointment.date}
-              onChange={handleChange}
-              fullWidth
-              required
-              InputLabelProps={{
-                shrink: true,
-              }}
-              variant="outlined"
-              error={!!errors.date}
-              helperText={errors.date}
-              style={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "&:hover fieldset": {
-                    borderColor: "#16A34A",
-                  },
-                },
-              }}
-            />
-            <TextField
-              select
-              label="Appointment With"
-              name="appointmentWith"
-              value={appointment.appointmentWith}
-              onChange={handleChange}
-              fullWidth
-              required
-              variant="outlined"
-              error={!!errors.appointmentWith}
-              helperText={errors.appointmentWith || "Select an employee for the appointment."}
-              style={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "&:hover fieldset": {
-                    borderColor: "#16A34A",
-                  },
-                },
-              }}
-            >
-              {employees.map((employee) => (
-                <MenuItem key={employee.email} value={employee.name}>
-                  {employee.name} - {employee.department || "No department"}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Box>
-
-          {/* Action Buttons */}
-          <div className="mt-6 flex justify-between">
-            <Button
-              onClick={handleClear}
-              variant="outlined"
-              color="warning"
-              size="large"
+            {/* Close Icon */}
+            <IconButton
+              onClick={onClose}
+              aria-label="Close modal"
               style={{
-                borderRadius: "8px",
-                padding: "8px 16px",
-                textTransform: "none",
-                background: "linear-gradient(145deg, #ff9800, #fb8c00)",
-                color: "white",
+                position: "absolute",
+                top: "16px",
+                right: "16px",
+                backgroundColor: "rgba(0, 0, 0, 0.05)",
                 transition: "transform 0.2s ease-in-out",
               }}
+              size="small"
               sx={{
                 "&:hover": {
-                  transform: "scale(1.05)",
+                  backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  transform: "scale(1.1)",
                 },
               }}
             >
-              Clear
-            </Button>
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              color="primary"
-              size="large"
-              disabled={isSubmitting}
+              <FaTimes />
+            </IconButton>
+
+            {/* Title */}
+            <h2
               style={{
-                borderRadius: "8px",
-                padding: "8px 16px",
-                textTransform: "none",
-                background: "linear-gradient(145deg, #16A34A, #166534)",
-                color: "white",
-                transition: "transform 0.2s ease-in-out",
-              }}
-              sx={{
-                "&:hover": {
-                  transform: "scale(1.05)",
-                },
+                fontSize: "1.5rem",
+                fontWeight: "bold",
+                textAlign: "center",
+                color: "#16A34A",
+                marginBottom: "20px",
+                borderBottom: "2px solid #dee2e6",
+                paddingBottom: "8px",
               }}
             >
-              {isSubmitting ? (
-                <CircularProgress size={24} color="inherit" />
-              ) : (
-                "Save"
-              )}
-            </Button>
-          </div>
-        </motion.div>
-      </AnimatePresence>
+              {appointmentToEdit ? "Edit Appointment" : "Add Appointment"}
+            </h2>
+
+
+            {/* Form */}
+            <Box component="form" className="space-y-5">
+              <TextField
+                label="Visitor Name"
+                name="visitorName"
+                value={appointment.visitorName}
+                onChange={handleChange}
+                fullWidth
+                required
+                variant="outlined"
+                error={!!errors.visitorName}
+                helperText={errors.visitorName}
+                className="bg-white rounded-lg"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&:hover fieldset": {
+                      borderColor: "#16A34A",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                label="Phone Number"
+                name="phoneNumber"
+                value={appointment.phoneNumber}
+                onChange={handleChange}
+                fullWidth
+                required
+                type="tel"
+                variant="outlined"
+                error={!!errors.phoneNumber}
+                helperText={errors.phoneNumber}
+                className="bg-white rounded-lg"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&:hover fieldset": {
+                      borderColor: "#16A34A",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                label="Reason"
+                name="reason"
+                value={appointment.reason}
+                onChange={handleChange}
+                fullWidth
+                required
+                multiline
+                rows={3}
+                variant="outlined"
+                error={!!errors.reason}
+                helperText={errors.reason}
+                className="bg-white rounded-lg"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&:hover fieldset": {
+                      borderColor: "#16A34A",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                label="Date"
+                name="date"
+                type="datetime-local"
+                value={appointment.date}
+                onChange={handleChange}
+                fullWidth
+                required
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+                error={!!errors.date}
+                helperText={errors.date}
+                className="bg-white rounded-lg"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&:hover fieldset": {
+                      borderColor: "#16A34A",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                select
+                label="Appointment With"
+                name="appointmentWith"
+                value={appointment.appointmentWith}
+                onChange={handleChange}
+                fullWidth
+                required
+                variant="outlined"
+                error={!!errors.appointmentWith}
+                helperText={errors.appointmentWith || "Select an employee for the appointment."}
+                className="bg-white rounded-lg"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&:hover fieldset": {
+                      borderColor: "#16A34A",
+                    },
+                  },
+                }}
+              >
+                {employees.map((employee) => (
+                  <MenuItem key={employee.email} value={employee.name}>
+                    {employee.name} - {employee.department || "No department"}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+
+            {/* Action Buttons */}
+            <div className="mt-6 flex justify-between">
+              <Button
+                onClick={handleClear}
+                variant="outlined"
+                color="warning"
+                size="large"
+                style={{
+                  borderRadius: "8px",
+                  padding: "8px 16px",
+                  textTransform: "none",
+                  background: "linear-gradient(145deg, #ff9800, #fb8c00)",
+                  color: "white",
+                  transition: "transform 0.2s ease-in-out",
+                }}
+                sx={{
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                  },
+                }}
+              >
+                Clear
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                color="primary"
+                size="large"
+                disabled={isSubmitting}
+                style={{
+                  borderRadius: "8px",
+                  padding: "8px 16px",
+                  textTransform: "none",
+                  background: "linear-gradient(145deg, #16A34A, #166534)",
+                  color: "white",
+                  transition: "transform 0.2s ease-in-out",
+                }}
+                sx={{
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                  },
+                }}
+              >
+                {isSubmitting ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "Save"
+                )}
+              </Button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </Modal>
   );
 };

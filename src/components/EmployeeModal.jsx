@@ -92,6 +92,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
 
   return (
     <Modal open={isOpen} onClose={onClose}>
+      <div>
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -112,6 +113,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
             maxHeight: "90vh", // Set max height for the modal
             overflowY: "auto", // Enable vertical scrolling
           }}
+          className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[600px] overflow-y-auto max-h-[90vh]"
         >
           {/* Close Icon */}
           <IconButton
@@ -368,6 +370,7 @@ const EmployeeModal = ({ isOpen, onClose, onSave, employeeToEdit }) => {
           </div>
         </motion.div>
       </AnimatePresence>
+      </div>
     </Modal>
   );
 };

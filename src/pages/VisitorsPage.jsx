@@ -8,6 +8,7 @@ import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { format } from "date-fns";
 import PageLayout from "../utils/PageLayout";
+import { toastConfig } from '../../src/toastConfig'; 
 
 const VisitorPage = () => {
   const visitors = useSelector((state) => state.visitors.list);
@@ -23,10 +24,10 @@ const VisitorPage = () => {
   const handleSaveVisitor = (visitor) => {
     if (visitorToEdit) {
       dispatch(editVisitor(visitor));
-      toast.success("Visitor updated successfully!");
+      toast.success("Visitor updated successfully!" , toastConfig);
     } else {
       dispatch(addVisitor({ ...visitor, id: Date.now() }));
-      toast.success("Visitor added successfully!");
+      toast.success("Visitor added successfully!", toastConfig);
     }
     setModalOpen(false);
     setVisitorToEdit(null);
@@ -34,7 +35,7 @@ const VisitorPage = () => {
 
   const handleDeleteVisitor = (id) => {
     dispatch(deleteVisitor(id));
-    toast.error("Visitor deleted successfully!");
+    toast.error("Visitor deleted successfully!" , toastConfig);
   };
 
   const formattedDate = (date) => {
@@ -43,10 +44,10 @@ const VisitorPage = () => {
 
   return (
     <PageLayout
-      title="Visitor's List"
+      title="Visitor's List:"
       onAddClick={() => openModal()}
       addButtonText="Add Visitor"
-      buttonStyle="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+      buttonStyle="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
     >
       {/* Responsive Table Container */}
       <div className="overflow-x-auto">
