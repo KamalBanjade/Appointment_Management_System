@@ -48,48 +48,50 @@ const VisitorPage = () => {
       addButtonText="Add Visitor"
       buttonStyle="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
     >
-      <table className="w-full text-sm text-gray-700 shadow-lg rounded-lg overflow-hidden text-center">
-        <thead>
-          <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
-            <th className="border border-gray-300 px-4 py-3 text-center font-semibold">SN</th>
-            <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Visitor Name</th>
-            <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Phone Number</th>
-            <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Reason</th>
-            <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Date (Time)</th>
-            <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Visit with (Department)</th>
-            <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {visitors.map((visitor, index) => (
-            <tr
-              key={visitor.id}
-              className="hover:bg-gradient-to-r from-gray-50 to-gray-100 transition-all duration-300 transform hover:scale-100 hover:shadow-lg"
-            >
-              <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
-                {index + 1}
-              </td>
-              <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
-                {visitor.name}
-              </td>
-              <td className="border border-gray-200 px-4 py-2 text-gray-700">
-                <a
-                  href={`tel:${visitor.phoneNumber}`}
-                  className="text-blue-500 hover:underline hover:text-blue-700 transition-all duration-300"
-                >
-                  {visitor.phoneNumber}
-                </a>
-              </td>
-              <td className="border border-gray-200 px-4 py-2 text-gray-800">
-                {visitor.visitReason}
-              </td>
-              <td className="border border-gray-200 px-4 py-2 text-gray-700">
-                {formattedDate(visitor.visitDate)}
-              </td>
-              <td className="border border-gray-200 px-4 py-2 font-medium text-gray-700">
-                {visitor.appointmentWith}
-              </td>
-              <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">
+      {/* Responsive Table Container */}
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-sm text-gray-700 shadow-lg rounded-lg overflow-hidden">
+          <thead>
+            <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-black">
+              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">SN</th>
+              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Visitor Name</th>
+              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Phone Number</th>
+              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Reason</th>
+              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Date (Time)</th>
+              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Visit with (Department)</th>
+              <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {visitors.map((visitor, index) => (
+              <tr
+                key={visitor.id}
+                className="hover:bg-gradient-to-r from-gray-50 to-gray-100 transition-all duration-300 transform hover:scale-100 hover:shadow-lg"
+              >
+                <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
+                  {index + 1}
+                </td>
+                <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
+                  {visitor.name}
+                </td>
+                <td className="border border-gray-200 px-4 py-2 text-gray-700">
+                  <a
+                    href={`tel:${visitor.phoneNumber}`}
+                    className="text-blue-500 hover:underline hover:text-blue-700 transition-all duration-300"
+                  >
+                    {visitor.phoneNumber}
+                  </a>
+                </td>
+                <td className="border border-gray-200 px-4 py-2 text-gray-800">
+                  {visitor.visitReason}
+                </td>
+                <td className="border border-gray-200 px-4 py-2 text-gray-700">
+                  {formattedDate(visitor.visitDate)}
+                </td>
+                <td className="border border-gray-200 px-4 py-2 font-medium text-gray-700">
+                  {visitor.appointmentWith}
+                </td>
+                <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">
                 <IconButton
                   onClick={() => openModal(visitor)}
                   color="success"
@@ -128,12 +130,14 @@ const VisitorPage = () => {
                 >
                   <DeleteIcon fontSize="small" />
                 </IconButton>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
+      {/* Modal */}
       {isModalOpen && (
         <VisitorModal
           isOpen={isModalOpen}
@@ -143,6 +147,7 @@ const VisitorPage = () => {
         />
       )}
 
+      {/* Toast Container */}
       <ToastContainer
         position="bottom-right"
         autoClose={3000}
