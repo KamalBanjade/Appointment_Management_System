@@ -102,17 +102,35 @@ const Header = () => {
               </NavLink>
             </li>
           </ul>
-
-          {/* Add Button (Visible Only on Small Screens) */}
           <div className="sm:hidden">
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               startIcon={<AddIcon />}
               onClick={handleMenuOpen}
+              sx={{
+                borderColor: '#009688',
+                color: '#009688',
+                borderRadius: '10px',
+                padding: '5px 10px',
+                fontWeight: 'bold',
+                textTransform: 'none',
+                boxShadow: 'none',
+                transition: 'all 0.3s ease-in-out',
+                '&:hover': {
+                  backgroundColor: '#009688',
+                  color: 'white',
+                  borderColor: '#009688',
+                },
+                '&:active': {
+                  borderColor: '#00796B',
+                  color: '#00796B',
+                },
+              }}
             >
               Add...
             </Button>
+
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}

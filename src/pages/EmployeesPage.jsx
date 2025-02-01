@@ -70,7 +70,7 @@ const EmployeePage = () => {
                   {index + 1}
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium text-center">
-                  <span className="inline-block px-3 py-1 text-sm">{employee.name}</span>
+                  <span className="inline-block px-3 py-1 text-xs lg:text-sm">{employee.name}</span>
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
                   <a
@@ -81,7 +81,7 @@ const EmployeePage = () => {
                   </a>
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
-                  <span className="inline-block px-2 py-1 text-sm">{employee.officeTime || "-"}</span>
+                  <span className="inline-block px-2 py-1 text-xs lg:text-sm">{employee.officeTime || "-"}</span>
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-700 font-medium text-center">
                   {employee.department}

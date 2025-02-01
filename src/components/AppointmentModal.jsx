@@ -137,6 +137,7 @@ const AppointmentModal = ({
             marginTop: "10vh",
             outline: "none",
             position: "relative",
+            maxHeight: "80vh",
             background: "linear-gradient(145deg, #ffffff, #f9f9f9)",
           }}
            className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[600px] overflow-y-auto max-h-[90vh]"
@@ -293,7 +294,7 @@ const AppointmentModal = ({
             </Box>
 
             {/* Action Buttons */}
-            <div className="mt-6 flex justify-between">
+            <div className="mt-6 flex justify-between mb-4">
               <Button
                 onClick={handleClear}
                 variant="outlined"

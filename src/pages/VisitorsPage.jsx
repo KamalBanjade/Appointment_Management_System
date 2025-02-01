@@ -72,8 +72,8 @@ const VisitorPage = () => {
                 <td className="border border-gray-200 px-4 py-2 text-gray-700 text-center">
                   {index + 1}
                 </td>
-                <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium">
-                  {visitor.visitorName}
+                <td className="border border-gray-200 px-4 py-2 text-gray-800 font-medium ">
+                <span className="inline-block px-3 py-1 text-xs lg:text-sm">{visitor.visitorName}</span>
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-700">
                   <a
@@ -84,13 +84,13 @@ const VisitorPage = () => {
                   </a>
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-800">
-                  {visitor.visitReason}
+                <span className="inline-block px-3 py-1 text-xs lg:text-sm">{visitor.visitReason}</span>
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-gray-700">
-                  {formattedDate(visitor.visitDate)}
+                <span className="inline-block px-3 py-1 text-xs lg:text-sm">{formattedDate(visitor.visitDate)}</span>
                 </td>
                 <td className="border border-gray-200 px-4 py-2 text-center font-medium text-gray-700">
-                  {visitor.appointmentWith}
+                <span className="inline-block px-3 py-1 text-xs lg:text-sm">{visitor.appointmentWith}</span>
                 </td>
                 <td className="border border-gray-200 px-4 py-2 flex justify-center space-x-2">
                 <IconButton
